@@ -12,8 +12,7 @@ describe "stocks routes" do
 
   it "GET root to stocks#index" do
     { :get => "/" }.should route_to(
-      :controller => "stocks",
-      :action => "index"
+      "stocks#index"  # shortcut notation, same as above
     )
   end
 

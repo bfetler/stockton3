@@ -1,0 +1,18 @@
+%p#notice= notice
+
+%p
+  %b Companyname:
+  = @stock.companyname
+%p
+  %b Companysymbol:
+  = @stock.companysymbol
+%p
+  %b Value:
+  = @stock.value
+%p
+  %b Delta:
+  = @stock.delta
+
+= link_to 'Edit', edit_stock_path(@stock)
+\|
+= link_to 'Back', stocks_path
