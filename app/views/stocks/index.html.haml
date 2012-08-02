@@ -2,9 +2,9 @@
 
 %table
   %tr
-    %th Companyname
-    %th Companysymbol
-    %th Value
+    %th Stock Name
+    %th Symbol
+    %th Last Value
     %th Delta
     %th
     %th
@@ -20,6 +20,8 @@
       %td= link_to 'Edit', edit_stock_path(stock)
       %td= link_to 'Destroy', stock, :confirm => 'Are you sure?', :method => :delete
 
+%br
+%p= @bar
 %br
 
 = link_to 'New Stock', new_stock_path
