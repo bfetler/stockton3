@@ -1,11 +1,12 @@
 class StocksController < ApplicationController
+
   # GET /stocks
   # GET /stocks.json
   def index
     @stocks = Stock.all
     @bar = "baroo"
     @bar = StockService.foo
-    StockService.request_stocks
+#   StockService.request_stocks
 
     respond_to do |format|
       format.html # index.html.erb
