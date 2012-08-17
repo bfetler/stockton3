@@ -1,4 +1,6 @@
 require 'spec_helper'
+# require 'webmock/rspec'
+  require 'net/http'
 
 describe StockService do
   it "should print foo" do
@@ -18,15 +20,47 @@ describe StockService do
     StockService.request_stocks('GOOG')
   end
 
-  it "should stub parse_response" do
-# well this is true by definition, not helpful
-    rbody = "GOOG","Google Inc.","Aug 15 - <b>667.54</b>","-1.12 - -0.17%"
+  it "request_stocks should respond to fetch_uri stub" do
+# true by definition, not helpful
+#   res = Net::HTTPResponse.new()  # new(path, initheader=nil)
+#   rbody = "GOOG","Google Inc.","Aug 15 - <b>667.54</b>","-1.12 - -0.17%"
+    rbody = '"GOOG","Google Inc.","Aug 15 - <b>667.54</b>","-1.12 - -0.17%"'
+#   http_mock = mock('Net::HTTPResponse')
+    http_mock = double('Net::HTTPResponse')
+    http_mock.stub(:code => '200', :message => "OK",
+      :content_type => "text/html",
+      :body => rbody)
 #   res.stub(:body).and_return(rbody)
-#   StockService.stub(:fetch_uri).and_return(rbody)  # not quite right
-    Net::HTTP.stub(:get_response).and_return(rbody)  # not quite right
+    StockService.stub(:fetch_uri).and_return(http_mock)  # okay!
+#   Net::HTTP.stub(:get_response).and_return(http_mock)  # not quite right
 #     should return res, res.body = rbody
+#   stub_request(:get, ).with
 #   StockService.stub(:parse_response).and_return(res)
 #   StockService.parse_response(rbody).should eq(...)
+    res = StockService.request_stocks('GOOG')
+    res.code.should eq("200")
+    res.message.should eq("OK")
+    res.body.should eq(rbody)
+  end
+
+  it "parse_response should respond to fetch_uri stub" do
+# true by definition, not helpful
+#   rbody = "GOOG","Google Inc.","Aug 15 - <b>667.54</b>","-1.12 - -0.17%"
+    rbody = '"GOOG","Google Inc.","Aug 15 - <b>667.54</b>","-1.12 - -0.17%"'
+#   http_mock = mock('Net::HTTPResponse')
+    http_mock = double('Net::HTTPResponse')
+    http_mock.stub(:code => '200', :message => "OK",
+      :content_type => "text/html",
+      :body => rbody)
+    StockService.stub(:fetch_uri).and_return(http_mock)  # okay!
+#   Net::HTTP.stub(:get_response).and_return(http_mock)  # not quite right
+#   StockService.parse_response(rbody).should eq(...)
+    res = StockService.request_stocks('GOOG')
+    res.code.should eq("200")
+    res.body.should eq(rbody)
+    outp = StockService.parse_response(res)
+    outp[0]["companysymbol"].should eq 'GOOG'
+    outp[0]["value"].to_i.should be > 600
   end
 
   it "should respond to one arg: request_stocks('GOOG')" do

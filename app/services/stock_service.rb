@@ -93,6 +93,7 @@ class StockService
   # You should choose a better exception.
     raise ArgumentError, 'too many HTTP redirects' if limit == 0
 
+puts "fetch get_response uri: " + uri_str
     response = Net::HTTP.get_response(URI(uri_str))
 
     case response
