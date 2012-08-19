@@ -21,7 +21,7 @@ group :test do
 # gem 'cucumber-rails'
 # gem 'cucumber-rails-training-wheels'
 # gem 'database_cleaner'
-# gem 'webmock'  # disables all http requests!  bad!
+  gem 'webmock'  # disables all http requests by default, see specs
 end
 
 # Gems used only for assets and not required

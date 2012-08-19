@@ -1,14 +1,22 @@
 require 'spec_helper'
 # require 'webmock/rspec'
   require 'net/http'
+# WebMock.allow_net_connect!  # enables http in other files
 
 describe StockService do
+  before(:each) do
+    WebMock.allow_net_connect!
+  end
+  after(:each) do
+    WebMock.disable_net_connect!
+  end
+
   it "should print foo" do
     tmp = StockService.foo
     tmp.should eq("fooiee")
   end
 
-  it "should stub http request_stocks" do
+  it "should stub request_stocks" do
 # well this is true by definition, not helpful
     StockService.stub(:request_stocks).and_return("200")
     StockService.request_stocks('GOOG').should eq("200")
