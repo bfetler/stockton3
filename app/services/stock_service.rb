@@ -17,10 +17,13 @@ class StockService
 #   system "wget -O outf 'http://finance.yahoo.com/d/quotes.csv?s=GOOG+AAPL+YHOO&f=snlc'"
 #   system "wget -O " + OUTFILE + " 'http://finance.yahoo.com/d/quotes.csv?s=GOOG+AAPL+YHOO&f=snlc'"
     puts "stocks is an Array? " + stocks.is_a?(Array).to_s
-    puts "stocks: " + stocks.join("+")
+    sstr = stocks.join("+")
+#   puts "stocks: " + sstr
+    sstr = URI.escape(sstr)  # not needed if I check stock valid? beforehand
+    puts "stocks escape uri: " + sstr
 #   uri_str = 'http://finance.yahoo.com/d/quotes.csv?s=GOOG+AAPL+YHOO&f=snlc'
 # need to parse stocks before adding raw text into uri? see uri::http?
-    uri_str = 'http://finance.yahoo.com/d/quotes.csv?s=' + stocks.join("+") + '&f=snlc'
+    uri_str = 'http://finance.yahoo.com/d/quotes.csv?s=' + sstr + '&f=snlc'
 #   uri = URI(uri_str)
 #   Net::HTTP.get(uri)
 #   res = Net::HTTP.get_response(uri)
