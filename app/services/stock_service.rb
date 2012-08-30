@@ -10,9 +10,20 @@ class StockService
 
 # wget -O outf 'http://finance.yahoo.com/d/quotes.csv?s=GOOG+AAPL+YHOO&f=snlc'
 # define output file
-# define stock symbol list
+# define stock symbol list, keep in cache (local variable)
+# keep in class variable in StockService, get with an action?
+# hash of hashes, or hash of objects?
+
+# apt-get install apache2-utils => get ab (ApacheBench http benchmarking tool)
+# ab -c 5 -n 100 http://finance.yahoo.com/d/quotes.csv?s=GOOG+AAPL+YHOO&f=snlc
+#  -c is number of simultaneous threads, -n is total number of requests
+
+# http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.quotes%20where%20symbol%20in%20(%22YHOO%22%2C%22AAPL%22%2C%22GOOG%22%2C%22MSFT%22)&format=json&diagnostics=true&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback=cbfunc
+
+# see background_job, resque, delayed_job gem?
 
   def self.request_stocks(*stocks)
+
 # do not try exec wget!  it kills rails server, hee hee
 #   system "wget -O outf 'http://finance.yahoo.com/d/quotes.csv?s=GOOG+AAPL+YHOO&f=snlc'"
 #   system "wget -O " + OUTFILE + " 'http://finance.yahoo.com/d/quotes.csv?s=GOOG+AAPL+YHOO&f=snlc'"
