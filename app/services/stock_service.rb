@@ -27,6 +27,16 @@ class StockService
 # do not try exec wget!  it kills rails server, hee hee
 #   system "wget -O outf 'http://finance.yahoo.com/d/quotes.csv?s=GOOG+AAPL+YHOO&f=snlc'"
 #   system "wget -O " + OUTFILE + " 'http://finance.yahoo.com/d/quotes.csv?s=GOOG+AAPL+YHOO&f=snlc'"
+
+# just get list of all stocks for background process, don't use arg *stocks
+    if stocks.empty?
+      stocklist = Stock.all
+      stocks = []
+      stocklist.each { |s| stocks << s.companysymbol }
+    end
+#   stocklist = Stock.find(:all).collect(&:companysymbol)
+#   puts "stocklist: " + stocklist.inspect
+
     puts "stocks is an Array? " + stocks.is_a?(Array).to_s
     sstr = stocks.join("+")
 #   puts "stocks: " + sstr
@@ -87,6 +97,19 @@ class StockService
       sash["companysymbol"] = s[/\w+/]
       sash["value"] = s.split(/[<b>]/)[3]
       sash["delta"] = s.split(/,/)[3][/[0-9+-\.]+/]
+
+      stock = Stock.where("companysymbol = ?", sash["companysymbol"]).first
+puts "stock db: " + stock.inspect
+      if stock.nil?   # true if test env, or if not yet in db
+        stock = Stock.new(sash)
+      else
+        if stock.update_attributes(sash)
+puts "updated stock " + sash.inspect
+        else
+puts "can't update stock " + sash.inspect
+        end
+      end
+
 #     outp << sash
       outp[index] = sash
 #     outp[index.to_s] = sash
