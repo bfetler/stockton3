@@ -22,6 +22,30 @@ class StockService
 
 # see background_job, resque, delayed_job gem?
 
+  def self.fake_request()
+puts "fake_request"
+    stocklist = Stock.all
+    stocks = []
+    stocklist.each { |s| stocks << s.companysymbol }
+    stocklist.each do |stock|
+#     puts "stock: " + stock.inspect
+# calculate new random value
+      oldval = stock["value"].to_f
+      del = Random.new().rand(-5.0...5.0).round(2)
+      if oldval+del < 0.0; del = -del; end
+      newval = (oldval + del).round(2)  # add/sub not perfect, must round
+      puts "  " + stock["companysymbol"] + " oldval:" + oldval.to_s + " del:" + del.to_s + " newval:" + newval.to_s
+      sash = Hash.new
+      sash["value"] = newval.to_s
+      sash["delta"] = del.to_s
+      if stock.update_attributes(sash)
+puts "  updated stock " + sash.inspect
+      else
+puts "  can't update stock " + sash.inspect
+      end
+    end
+  end
+
   def self.request_stocks(*stocks)
 
 # do not try exec wget!  it kills rails server, hee hee
@@ -119,6 +143,7 @@ puts "can't update stock " + sash.inspect
 # what happens if there are many, many stocks?
     puts outp.inspect
     outp
+# don't need to return all stocks hash, just true or false
   end
 
 # Caleb suggests:
