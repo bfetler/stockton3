@@ -22,19 +22,21 @@ class StocksController < ApplicationController
 #   sash = StockService.parse_response(res)
     StockService.fake_request()
 
-#   sash.each_value do |params|   # similar to update
-#     stock = Stock.where("companysymbol = ?", params["companysymbol"]).first
-#     if stock.update_attributes(params)
-# puts "updated stock " + params.inspect
-#     else
-# puts "can't update stock " + params.inspect
-#     end
-#   end
+##   sash.each_value do |params|   # similar to update
+##     stock = Stock.where("companysymbol = ?", params["companysymbol"]).first
+##     if stock.update_attributes(params)
+## puts "updated stock " + params.inspect
+##     else
+## puts "can't update stock " + params.inspect
+##     end
+##   end
+    @stocks = Stock.all
 
     respond_to do |format|
 #     format.html { redirect_to :action => "index", notice: 'Stock service redirects to index.' }
       format.html { redirect_to :action => "index" }
-      format.json { render json: "index" }
+#     format.json { render json: "index" }
+      format.json { render json: @stocks }
     end
   end
 

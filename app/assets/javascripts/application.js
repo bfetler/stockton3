@@ -13,3 +13,22 @@
 //= require jquery
 //= require jquery_ujs
 //= require_tree .
+
+$(function() {
+  if ($("#ssstocklist").length > 0) {
+//  setTimeout(updateStockValues, 5000);
+    setTimeout(updateStockView, 10000);
+  }
+});
+
+function updateStockView() {
+  $.getJSON("/getservice.js", function(data) {
+    alert("aack!");
+    $.each(data, function(key, obj) {
+//    alert(obj.value);
+//    alert("aaoooga!");
+    });
+  });
+  setTimeout(updateStockView, 10000);
+}
+
