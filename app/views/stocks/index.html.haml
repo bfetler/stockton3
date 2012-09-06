@@ -13,9 +13,9 @@
   - @stocks.each do |stock|
     %tr
       %td= stock.companyname
-      %td= stock.companysymbol
-      %td= stock.value
-      %td= stock.delta
+      %td.companysymbol= stock.companysymbol
+      %td.value= stock.value
+      %td.delta= stock.delta
       %td= link_to 'Show', stock
       %td= link_to 'Edit', edit_stock_path(stock)
       %td= link_to 'Destroy', stock, :confirm => 'Are you sure?', :method => :delete

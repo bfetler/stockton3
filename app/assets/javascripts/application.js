@@ -15,18 +15,50 @@
 //= require_tree .
 
 $(function() {
-  if ($("#ssstocklist").length > 0) {
+  if ($("#stocklist").length > 0) {
 //  setTimeout(updateStockValues, 5000);
     setTimeout(updateStockView, 10000);
   }
 });
 
+// notes from Iain at carbon 5
+// console.log() is very useful
+//   don't use console.log(obj + "text") if obj is object, not string
 function updateStockView() {
-  $.getJSON("/getservice.js", function(data) {
-    alert("aack!");
-    $.each(data, function(key, obj) {
+  $.getJSON("/getservice", function(data) {
+//  alert("aack!");
+//  $.each(data, function(obj) {
 //    alert(obj.value);
 //    alert("aaoooga!");
+//  });
+    console.log(data);
+//  $(data).each(function(obj) {
+    $.each(data, function(i, obj) {
+      var td, tr;
+      td = $("#stocklist td.companysymbol:contains('" + obj.companysymbol + "')");
+      console.log(
+        "#stocklist td.companysymbol:contains('" + obj.companysymbol + "')"
+      );
+      tr = td.parent();
+      console.log("obj:");
+      console.log(obj);
+      console.log("td:");
+      console.log(td);
+      console.log("tr:");
+      console.log(tr);
+//    $(obj).each(function(key, val) {
+// could limit to specific keys, e.g. value delta
+      $.each(obj, function(key, val) {
+//      $("#stocklist td.companysymbol:eq('" + val + );
+        console.log("key val:");
+        console.log([key, val]);
+        $("td." + key, tr).text(val);
+        console.log( $("td." + key, tr) );
+//      $(val).each(function(k, v) {
+//        console.log("k v:");
+//        console.log([k, v]);
+//      });
+      });
     });
   });
   setTimeout(updateStockView, 10000);

@@ -4,6 +4,7 @@ class StocksController < ApplicationController
   # GET /stocks.json
   def index
     @stocks = Stock.all
+# @stocks = Stock.where(companysymbol: params["symbols"])
     @bar = "baroo"
     @bar = StockService.foo
 #   StockService.request_stocks
@@ -32,11 +33,23 @@ class StocksController < ApplicationController
 ##   end
     @stocks = Stock.all
 
+# Iain from carbon 5 says:
+# rails shortcut to get just a few symbols w/o adding to db
+# http://0.0.0.0:3000/stocks?symbols[]=GOOG&symbols[]=YHOO
+# @stocks = Stock.where(companysymbol: params["symbols"])
+
+# also how does rails know format json?
+# see jQuery getJSON(), sets Request Headers: Accept
+# see firebug GET headers, response
+
+    puts "stocks to_json: " + @stocks.to_json
+
     respond_to do |format|
+#     puts "getservice: format " + format.inspect
 #     format.html { redirect_to :action => "index", notice: 'Stock service redirects to index.' }
-      format.html { redirect_to :action => "index" }
+      format.html { puts "getservice redirect_to index"; redirect_to :action => "index" }
 #     format.json { render json: "index" }
-      format.json { render json: @stocks }
+      format.json { puts "getservice json"; render json: @stocks }
     end
   end
 
