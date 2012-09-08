@@ -15,16 +15,26 @@
 //= require_tree .
 
 $(function() {
+//  if ($("#stop_stocklist").length > 0) {
   if ($("#stocklist").length > 0) {
-//  setTimeout(updateStockValues, 5000);
-    setTimeout(updateStockView, 5000);
+    setTimeout(updateStockValues, 5000);
+    setTimeout(updateStockView, 10000);  // test, not for real use
   }
 });
+
+function updateStockValues() {  // test function to update stocks
+//  console.log("updateStockValues()");
+  $.getJSON("/getservice");
+//  $.getJSON("/getservice", function(data) {
+//  });
+  setTimeout(updateStockValues, 20000);
+}
 
 // notes from Iain at carbon 5
 // don't use console.log(obj + "text") if obj is object, not string
 function updateStockView() {
-  $.getJSON("/getservice", function(data) {
+//  $.getJSON("/getservice", function(data) {
+  $.getJSON("/stocks", function(data) {  // goes to stocks#index
 //  console.log(data);
     $.each(data, function(i, obj) {
       var tr;

@@ -49,6 +49,7 @@ class StocksController < ApplicationController
 #     format.html { redirect_to :action => "index", notice: 'Stock service redirects to index.' }
       format.html { puts "getservice redirect_to index"; redirect_to :action => "index" }
 #     format.json { render json: "index" }
+# needs the following line for getJSON()
       format.json { puts "getservice json"; render json: @stocks }
     end
   end
