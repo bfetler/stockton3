@@ -17,7 +17,7 @@
 $(function() {
   if ($("#stocklist").length > 0) {
 //  setTimeout(updateStockValues, 5000);
-    setTimeout(updateStockView, 10000);
+    setTimeout(updateStockView, 5000);
   }
 });
 
@@ -35,29 +35,56 @@ function updateStockView() {
 //  $(data).each(function(obj) {
     $.each(data, function(i, obj) {
       var td, tr;
-      td = $("#stocklist td.companysymbol:contains('" + obj.companysymbol + "')");
+
+//    td = $("#stocklist td.companysymbol:contains('" + obj.companysymbol + "')");
+      td = $("#stocklist td:contains('" + obj.companysymbol + "')");
+//    console.log(
+//      "#stocklist td:contains('" + obj.companysymbol + "')"
+//    );
+//    tr = td.parent();
+
+      tr = $("#stocklist td.companysymbol:contains('" + obj.companysymbol + "')").parent();
       console.log(
-        "#stocklist td.companysymbol:contains('" + obj.companysymbol + "')"
+        "#stocklist td.companysymbol:contains('" + obj.companysymbol + "').parent()"
       );
-      tr = td.parent();
+
       console.log("obj:");
       console.log(obj);
-      console.log("td:");
-      console.log(td);
+      console.log([obj.companysymbol, obj.value, obj.delta]);
       console.log("tr:");
       console.log(tr);
+
+//    td.next().text(obj.value);  // it works, but brittle, depends on order
+//    td.next().next().text(obj.delta);
+
+      tr.children(".value").text(obj.value); // works, independent of order
+      if (new Number(obj.delta) < 0) {
+        console.log("val is negative");
+        tr.children(".delta").text(obj.delta).css("color","red");
+      } else {
+        console.log("val is positive");
+        tr.children(".delta").text(obj.delta).css("color","green");
+      }
+
+      console.log("key val selector:");
 //    $(obj).each(function(key, val) {
 // could limit to specific keys, e.g. value delta
       $.each(obj, function(key, val) {
 //      $("#stocklist td.companysymbol:eq('" + val + );
-        console.log("key val:");
         console.log([key, val]);
-        $("td." + key, tr).text(val);
-        console.log( $("td." + key, tr) );
-//      $(val).each(function(k, v) {
-//        console.log("k v:");
-//        console.log([k, v]);
-//      });
+// see jQuery('element') link to jQuery function, jQuery(selector [,context])
+//      console.log( $("td." + key, tr) );
+//      $("td." + key, tr).text(val);
+//      if (key == "delta") {
+//        console.log("key is delta");
+//        if (new Number(val) < 0) {
+//          console.log("val is negative");
+//          $("td." + key, tr).css("color","red");
+//        } else {
+//          console.log("val is positive");
+//          $("td." + key, tr).css("color","green");
+//        }
+//      }
       });
     });
   });
