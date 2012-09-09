@@ -31,7 +31,7 @@ class StocksController < ApplicationController
 ## puts "can't update stock " + params.inspect
 ##     end
 ##   end
-    @stocks = Stock.all
+    @stocks = Stock.first
 
 # Iain from carbon 5 says:
 # rails shortcut to get just a few symbols w/o adding to db
@@ -48,6 +48,12 @@ class StocksController < ApplicationController
 #     puts "getservice: format " + format.inspect
 #     format.html { redirect_to :action => "index", notice: 'Stock service redirects to index.' }
       format.html { puts "getservice redirect_to index"; redirect_to :action => "index" }
+# curl -s 'http://0.0.0.0:3000/getservice' > /dev/null 2>&1
+# wget --header='Accept: application/json' 'http://0.0.0.0:3000/getservice'
+# wget -q -O /dev/null --header='Accept: application/json' 'http://0.0.0.0:3000/getservice' > /dev/null 2>&1
+# try setting headers to application/json instead of default html?
+# next line for less output from cron cmd, not for real html
+#     format.html { puts "getservice redirect_to index"; render json: @stocks }
 #     format.json { render json: "index" }
 # needs the following line for getJSON()
       format.json { puts "getservice json"; render json: @stocks }

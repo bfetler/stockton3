@@ -17,8 +17,8 @@
 $(function() {
 //  if ($("#stop_stocklist").length > 0) {
   if ($("#stocklist").length > 0) {
-    setTimeout(updateStockValues, 5000);
-    setTimeout(updateStockView, 10000);  // test, not for real use
+//  setTimeout(updateStockValues, 5000);  // test, not for real use
+    setTimeout(updateStockView, 10000);
   }
 });
 
@@ -67,8 +67,8 @@ function updateStockView() {
 //    console.log("key val selector:");
 //    $.each(obj, function(key, val) {
 //      console.log([key, val]);
-// see jQuery('element') link to jQuery function, jQuery(selector [,context])
 //      $("td." + key, tr).text(val);
+// see jQuery('element') link to jQuery function, jQuery(selector [,context])
 //    });
     });
   });
