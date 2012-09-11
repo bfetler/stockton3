@@ -6,28 +6,28 @@ gem 'rails', '3.2.3'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 group :development, :test do
-  gem 'sqlite3'
+  gem 'sqlite3', '1.3.6'
 end
 
 group :production do
-  gem 'pg'
+  gem 'pg'    # '0.14.0' in local gems dir, but heroku uses ?
 end
 
 group :test do
-  gem 'capybara'
-  gem 'launchy'
-  gem 'rspec-rails'
-  gem 'factory_girl_rails'
+  gem 'capybara', '1.1.2'
+  gem 'launchy', '2.1.0'
+  gem 'rspec-rails', '2.11.0'
+  gem 'factory_girl_rails', '3.5.0'
 # gem 'cucumber-rails'
 # gem 'cucumber-rails-training-wheels'
 # gem 'database_cleaner'
-  gem 'webmock'  # disables all http requests by default, see specs
+  gem 'webmock', '1.8.9'  # disables all http requests by default, see specs
 end
 
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
-  gem 'therubyracer'  # needed for coffee-rails, uglifier
+  gem 'therubyracer', '0.10.1'  # needed for coffee-rails, uglifier
   gem 'sass-rails',   '~> 3.2.3'
   gem 'coffee-rails', '~> 3.2.1'
 
@@ -37,9 +37,11 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
 end
 
-gem 'jquery-rails'
+gem 'jquery-rails', '2.0.2'
 
-gem 'haml-rails'
+gem 'haml-rails', '0.3.4'
+
+gem 'delayed_job_active_record', '0.3.2'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
