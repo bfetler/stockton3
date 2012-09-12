@@ -1,11 +1,11 @@
-%h1 Listing stocks
+%h2 Listing stocks
 
 %table#stocklist
   %tr
     %th Stock Name
     %th Symbol
     %th Last Value
-    %th Delta
+    %th Change
     %th
     %th
     %th
@@ -23,7 +23,7 @@
 %br
 %p= @bar
 %br
-= link_to 'Get Stock Service', getservice_path
+= link_to 'Get Stock Service', stockservice_path
 %br
 %br
 

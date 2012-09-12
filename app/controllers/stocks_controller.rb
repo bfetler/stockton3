@@ -15,8 +15,8 @@ class StocksController < ApplicationController
     end
   end
 
-  def getservice
-# ultimately should not call StockService here, leave that for background task
+  def sservice
+# should only call StockService from background task
 # should only receive notification after background task runs
 
 #   res = StockService.request_stocks()

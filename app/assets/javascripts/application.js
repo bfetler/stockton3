@@ -18,14 +18,14 @@ $(function() {
 //  if ($("#stop_stocklist").length > 0) {
   if ($("#stocklist").length > 0) {
 //  setTimeout(updateStockValues, 5000);  // test, not for real use
-    setTimeout(updateStockView, 10000);
+    setTimeout(updateStockView, 1000);
   }
 });
 
 function updateStockValues() {  // test function to update stocks
 //  console.log("updateStockValues()");
-  $.getJSON("/getservice");
-//  $.getJSON("/getservice", function(data) {
+  $.getJSON("/stockservice");
+//  $.getJSON("/stockservice", function(data) {
 //  });
   setTimeout(updateStockValues, 20000);
 }
