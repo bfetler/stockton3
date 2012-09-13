@@ -1,22 +1,29 @@
 = form_for @stock do |f|
   -if @stock.errors.any?
     #error_explanation
-      %h2= "#{pluralize(@stock.errors.count, "error")} prohibited this stock from being saved:"
+      %h3= "#{pluralize(@stock.errors.count, "error")} prohibited this stock from being saved:"
       %ul
         - @stock.errors.full_messages.each do |msg|
           %li= msg
 
-  .field
+  %table
+    %tr
+      %td= f.label "Company Name"
+      %td= f.text_field :companyname
+    %tr
+      %td= f.label "Stock Symbol"
+      %td= f.text_field :companysymbol
+  -#.field
     = f.label :companyname
     = f.text_field :companyname
-  .field
+  -#.field
     = f.label :companysymbol
     = f.text_field :companysymbol
-  .field
+  -#.field
     = f.label :value
     = f.text_field :value
-  .field
+  -#.field
     = f.label :delta
     = f.text_field :delta
   .actions
-    = f.submit 'Save'
+    = f.submit 'Save Stock'

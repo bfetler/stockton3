@@ -1,13 +1,13 @@
-%h2 Listing stocks
+%h2 My Stocks
 
 %table#stocklist
   %tr
-    %th Stock Name
+    %th Company
     %th Symbol
-    %th Last Value
+    %th Value
     %th Change
-    %th
-    %th
+    -#%th
+    -#%th
     %th
 
   - @stocks.each do |stock|
@@ -16,15 +16,13 @@
       %td.companysymbol= stock.companysymbol
       %td.value= stock.value
       %td.delta= stock.delta
-      %td= link_to 'Show', stock
-      %td= link_to 'Edit', edit_stock_path(stock)
-      %td= link_to 'Destroy', stock, :confirm => 'Are you sure?', :method => :delete
+      -#%td= link_to 'Show', stock
+      -#%td= link_to 'Edit', edit_stock_path(stock)
+      %td= link_to 'Delete', stock, :confirm => 'Are you sure?', :method => :delete
 
-%br
-%p= @bar
-%br
-= link_to 'Get Stock Service', stockservice_path
-%br
-%br
+%br/
+= link_to 'Add a Stock', new_stock_path
+%br/
+%br/
+= link_to 'Update Stocks', stockservice_path
 
-= link_to 'New Stock', new_stock_path

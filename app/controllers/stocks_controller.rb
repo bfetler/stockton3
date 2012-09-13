@@ -19,9 +19,9 @@ class StocksController < ApplicationController
 # should only call StockService from background task
 # should only receive notification after background task runs
 
-#   res = StockService.request_stocks()
-#   sash = StockService.parse_response(res)
-    StockService.fake_request()
+    res = StockService.request_stocks()
+    sash = StockService.parse_response(res)
+#   StockService.fake_request()
 
 ##   sash.each_value do |params|   # similar to update
 ##     stock = Stock.where("companysymbol = ?", params["companysymbol"]).first
@@ -31,7 +31,10 @@ class StocksController < ApplicationController
 ## puts "can't update stock " + params.inspect
 ##     end
 ##   end
-    @stocks = Stock.first
+
+# output is ignored, main purpose is to call StockService to update stocks
+#   @stocks = Stock.first
+    @stocks = "GOOG"
 
 # Iain from carbon 5 says:
 # rails shortcut to get just a few symbols w/o adding to db
@@ -47,7 +50,7 @@ class StocksController < ApplicationController
     respond_to do |format|
 #     puts "getservice: format " + format.inspect
 #     format.html { redirect_to :action => "index", notice: 'Stock service redirects to index.' }
-      format.html { puts "getservice redirect_to index"; redirect_to :action => "index" }
+      format.html { redirect_to :action => "index" }
 # curl -s 'http://0.0.0.0:3000/getservice' > /dev/null 2>&1
 # wget --header='Accept: application/json' 'http://0.0.0.0:3000/getservice'
 # wget -q -O /dev/null --header='Accept: application/json' 'http://0.0.0.0:3000/getservice' > /dev/null 2>&1
@@ -94,7 +97,8 @@ class StocksController < ApplicationController
 
     respond_to do |format|
       if @stock.save
-        format.html { redirect_to @stock, notice: 'Stock was successfully created.' }
+#       format.html { redirect_to @stock, notice: 'Stock was successfully created.' }
+        format.html { redirect_to :action => "index" }
         format.json { render json: @stock, status: :created, location: @stock }
       else
         format.html { render action: "new" }
