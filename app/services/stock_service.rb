@@ -67,6 +67,7 @@ puts "  can't update stock " + sash.inspect
     sstr = URI.escape(sstr)  # not needed if I check stock valid? beforehand
     puts "stocks escape uri: " + sstr
 #   uri_str = 'http://finance.yahoo.com/d/quotes.csv?s=GOOG+AAPL+YHOO&f=snlc'
+# max length of uri?
 # need to parse stocks before adding raw text into uri? see uri::http?
     uri_str = 'http://finance.yahoo.com/d/quotes.csv?s=' + sstr + '&f=snlc'
 #   uri = URI(uri_str)

@@ -15,13 +15,21 @@ class StocksController < ApplicationController
     end
   end
 
+# how to run background job
+# ruby cmd w/ rails env
+# rails -r  # runner
+# e.g. rails runner "StockService.fake_request"
+# delayed_job, resque + reque scheduler
+# use token, auth?  fastercsv, csv lib
+# see httpparty, rest_client, typhus
+
   def sservice
 # should only call StockService from background task
 # should only receive notification after background task runs
 
-    res = StockService.request_stocks()
-    sash = StockService.parse_response(res)
-#   StockService.fake_request()
+#   res = StockService.request_stocks()
+#   sash = StockService.parse_response(res)
+    StockService.fake_request()
 
 ##   sash.each_value do |params|   # similar to update
 ##     stock = Stock.where("companysymbol = ?", params["companysymbol"]).first

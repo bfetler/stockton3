@@ -2,18 +2,20 @@ class Stock < ActiveRecord::Base
   attr_accessible :companyname, :companysymbol, :delta, :value
 
 # stock_regex = /\A[A-Z]{1,4}\Z/
-  stock_regex = /^[A-Z]{1,4}$/
+  SREGEX = /^[A-Z]{1,4}$/
 
   validates :companyname,	:presence => true
   validates :companysymbol,	:presence => true,
-  				:format => { :with => stock_regex },
+  				:format => { :with => SREGEX },
  				:length => { :maximum => 4 }
 
-# validate :is_a_stock
+  validate :is_a_stock
 
 # StockService.request_stocks() response:
 #   "GOOG","Google Inc.","Sep 12 - <b>690.88</b>","-1.31 - -0.19%"
 #   "ZYX","ZYX","N/A - <b>0.00</b>","N/A - N/A"
+#   "CB","Chubb Corporation","Sep 12 - <b>75.80</b>","+0.58 - +0.77%"
+#   "TSLA","Tesla Motors, Inc","Sep 12 - <b>28.28</b>","+0.48 - +1.73%"
 
 # StockService.parse_response(res)
 #   updated stock:
@@ -22,12 +24,28 @@ class Stock < ActiveRecord::Base
 
   def is_a_stock
 #   if # companysymbol.valid?
-    if 0 > 1
-#   if self.companysymbol.match(stock_regex)
+    if self.companysymbol.match(SREGEX)
+puts "company symbol passes regex"
 #     only send http request if matches regex
       res = StockService.request_stocks(self.companysymbol)
 #     sash = StockService.parse_response(res)
 #     res.parse ...
+      if res.is_a?(Net::HTTPSuccess)
+        value = "0.00"
+        delta = "-"
+        outa = res.body.split("\r\n")
+puts "outa count " + outa.count.to_s
+        outa.each_with_index do |s, index|
+          value = s.split(/[<b>]/)[3]
+          delta = s.split(/,/)[3][/[0-9+-\.]+/]
+        end
+        if value == "0.00" && delta == "-"
+# don't need both conditions to fail?
+          errors.add("Invalid","stock symbol 3")
+        end
+      else
+        errors.add("Invalid","stock symbol 2")
+      end
     else
       errors.add("Invalid","stock symbol")
     end
