@@ -101,10 +101,15 @@ class StocksController < ApplicationController
   # POST /stocks
   # POST /stocks.json
   def create
+# next two lines useful for random test, not for real stock request?
+    params[:stock][:value] = 0.0 if params[:stock][:value].nil?
+    params[:stock][:delta] = 0.0 if params[:stock][:delta].nil?
     @stock = Stock.new(params[:stock])
+#   pp = @stock.valid_request?
+# puts "pp valid? " + pp.to_s
 
     respond_to do |format|
-      if @stock.save
+      if @stock.valid_request? and @stock.save
 #       format.html { redirect_to @stock, notice: 'Stock was successfully created.' }
         format.html { redirect_to :action => "index" }
         format.json { render json: @stock, status: :created, location: @stock }

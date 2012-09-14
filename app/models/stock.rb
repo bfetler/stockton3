@@ -9,7 +9,7 @@ class Stock < ActiveRecord::Base
   				:format => { :with => SREGEX },
  				:length => { :maximum => 4 }
 
-  validate :is_a_stock
+# validate :valid_request?
 
 # StockService.request_stocks() response:
 #   "GOOG","Google Inc.","Sep 12 - <b>690.88</b>","-1.31 - -0.19%"
@@ -22,7 +22,9 @@ class Stock < ActiveRecord::Base
 #   {"companysymbol"=>"GOOG", "value"=>"690.88", "delta"=>"-1.31"}
 #   {"companysymbol"=>"ZYX", "value"=>"0.00", "delta"=>"-"}
 
-  def is_a_stock
+  def valid_request?
+# only want to run this on create(), not update()
+# validations run on both, use separate call
 #   if # companysymbol.valid?
     if self.companysymbol.match(SREGEX)
 puts "company symbol passes regex"
@@ -34,20 +36,26 @@ puts "company symbol passes regex"
         value = "0.00"
         delta = "-"
         outa = res.body.split("\r\n")
-puts "outa count " + outa.count.to_s
+# puts "outa count " + outa.count.to_s
         outa.each_with_index do |s, index|
-          value = s.split(/[<b>]/)[3]
+  puts "s= " + s
+          value = s.split(/[<>]/)[2]
           delta = s.split(/,/)[3][/[0-9+-\.]+/]
+  puts "value=" + value + " delta=" + delta
         end
         if value == "0.00" && delta == "-"
 # don't need both conditions to fail?
           errors.add("Invalid","stock symbol 3")
+          return false
         end
       else
         errors.add("Invalid","stock symbol 2")
+        return false
       end
     else
       errors.add("Invalid","stock symbol")
+      return false
     end
+    true
   end
 end

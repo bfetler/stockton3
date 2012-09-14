@@ -95,7 +95,7 @@ puts "  can't update stock " + sash.inspect
   def self.parse_response(res)
     puts res.body.inspect if res.is_a?(Net::HTTPSuccess)
     outa = res.body.split("\r\n")
-    puts outa.count
+    puts "stock count: " + outa.count.to_s
 #   outp = []
     outp = Hash.new
     outa.each_with_index do |s, index|
@@ -114,13 +114,13 @@ puts "  can't update stock " + sash.inspect
 #     puts "  2nd: " + s.split(/,/)[2].split(/[^0-9+-\.]+/)[3].to_s
 
 #     puts "  1st: " + s[/\w+/]
-#     puts "  2nd: " + s.split(/[<b>]/)[3]
+#     puts "  2nd: " + s.split(/[<b>]/)[3]  # fails if b elsewhere in string
 #     puts "  3rd: " + s.split(/,/)[3][/[0-9+-\.]+/]
 #     outs << s[/\w+/].to_s
-#     outs << s.split(/[<b>]/)[3]
+#     outs << s.split(/[<>]/)[2]
 #     outs << s.split(/,/)[3][/[0-9+-\.]+/]
       sash["companysymbol"] = s[/\w+/]
-      sash["value"] = s.split(/[<b>]/)[3]
+      sash["value"] = s.split(/[<>]/)[2]
       sash["delta"] = s.split(/,/)[3][/[0-9+-\.]+/]
 
       stock = Stock.where("companysymbol = ?", sash["companysymbol"]).first
