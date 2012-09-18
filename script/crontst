@@ -2,4 +2,4 @@
 # * * * * *    wget -o /tmp/getout -O /tmp/getservice --header='Accept: application/json' 'http://0.0.0.0:3000/stockservice'
 # * * * * *    wget -q -O /dev/null --header='Accept: application/json' 'http://0.0.0.0:3000/stockservice'
 # * * * * *     /media/BLinux/ub2/rex/eg323/stockton/script/rails runner -e development 'StockService.fake_request' >> /tmp/stockton.tmp 2>&1
-* * * * *     /media/BLinux/ub2/rex/eg323/stockton/script/run_service
+* * * * *     /media/BLinux/ub2/rex/eg323/stockton/script/run_service.sh
