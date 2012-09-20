@@ -11,3 +11,33 @@
  *= require_self
  *= require_tree .
 */
+.header_box {
+  width: 75%;
+  padding: 0px 40px 0px 40px;
+  border: 2px solid blue;
+  background-color: cyan;
+}
+.footer_box {
+  width: 75%;
+  padding: 0px 40px 0px 40px;
+  border: 2px solid blue;
+  background-color: cyan;
+}
+.round {
+  -moz-border-radius:    10px;
+  -webkit-border-radius: 10px;
+  border-radius:         10px;
+}
+.right {
+  float: right;
+}
+.italics {
+  font-style: italic;
+}
+h4.stockton {
+  padding-top: 4px;
+}
+#stocklist {
+  background-color: yellow;
+}
+
