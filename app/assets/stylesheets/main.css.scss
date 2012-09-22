@@ -11,7 +11,29 @@ $head_pad: 40px;
 }
 .footer_box {
   @extend .header_box;
+  margin-bottom: 20px;
 }
+a.home, a.home:hover, a.home:visited {
+  text-decoration: none;
+  color: blue;
+}
+h4.stockton {
+  padding-top: 4px;
+}
+.footer_text {
+  font: {
+    family: serif;
+    size: 0.8em;
+  }
+  span.contact {
+    margin-left: 40px;
+    font-weight: bold;
+  }
+}
+li.pad20 {
+  margin-left: 20px;
+}
+
 $radius: 10px;
 .round {
   -moz-border-radius:    $radius;
@@ -21,12 +43,30 @@ $radius: 10px;
 .right {
   float: right;
 }
+ul.inline {
+  padding: 0;
+  margin: 0;
+  li {
+    display: inline-block;
+    list-style-type: none;
+#   padding-right: 40px;
+  }
+}
+li.nostyle {
+  list-style-type: none;
+}
+table.footer tr {
+  td {
+    width: 400px;
+  }
+}
 .italics {
   font-style: italic;
-}
-h4.stockton {
-  padding-top: 4px;
 }
 #stocklist {
   background-color: yellow;
 }
+td {
+  background-color: yellow;
+}
+
