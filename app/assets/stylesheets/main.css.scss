@@ -11,7 +11,7 @@ $head_pad: 40px;
 }
 .footer_box {
   @extend .header_box;
-  margin-bottom: 20px;
+  margin-bottom: $head_pad*0.5;
 }
 a.home, a.home:hover, a.home:visited {
   text-decoration: none;
@@ -19,19 +19,24 @@ a.home, a.home:hover, a.home:visited {
 }
 h4.stockton {
   padding-top: 4px;
+  padding-left: 40px;
+}
+table.footer {
+  td {
+    width: 35%;
+  }
 }
 .footer_text {
   font: {
     family: serif;
     size: 0.8em;
   }
-  span.contact {
+  .contact {
     margin-left: 40px;
-    font-weight: bold;
   }
 }
-li.pad20 {
-  margin-left: 20px;
+#stocklist {
+  background-color: yellow;
 }
 
 $radius: 10px;
@@ -54,17 +59,6 @@ ul.inline {
 }
 li.nostyle {
   list-style-type: none;
-}
-table.footer tr {
-  td {
-    width: 400px;
-  }
-}
-.italics {
-  font-style: italic;
-}
-#stocklist {
-  background-color: yellow;
 }
 td {
   background-color: yellow;

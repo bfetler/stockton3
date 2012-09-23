@@ -1,12 +1,13 @@
 %header
   %div.header_box.round
     %h4.stockton.right Stockton: A cool web page for tracking stocks.
-    %h2.head_link
+    %h2
       = link_to "My Stocks", root_path, :class => "home"
   %div.header_box.round
-    %ul.inline
-      %li
-        %h2.head_link
-          = link_to "My Stocks", root_path, :class => "home"
-      %li.right
-        %h4.stockton Stockton: A cool web page for tracking stocks.
+    %table.header
+      %tr
+        %td
+          %h2
+            = link_to "My Stocks", root_path, :class => "home"
+        %td
+          %h4.stockton Stockton: A cool web page for tracking stocks.
