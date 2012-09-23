@@ -3,7 +3,7 @@ $main_width: 70%;
 $head_pad: 40px;
 
 .header_box {
-  width: $main_width;
+  width: $main_width;  // don't use?
   padding-left: $head_pad;
   padding-right: $head_pad;
   border: 2px solid $blue;
@@ -34,8 +34,25 @@ table.footer {
     margin-left: 40px;
   }
 }
-#stocklist {
-  background-color: yellow;
+
+.main_panel {
+  width: $main_width;  // don't use?
+}
+span.action {
+# padding: $head_pad*0.5;  // useless
+}
+table#stocklist {
+  margin-top: $head_pad*0.5;
+  margin-bottom: $head_pad*0.5;
+  margin-left: $head_pad;
+  margin-right: $head_pad;
+  padding: $head_pad*0.5;
+  border: 2px solid black;
+  background-color: #fdf;
+  td.companysymbol, td.value, td.delta {
+    background-color: white;
+    padding-right: $head_pad*0.5;
+  }
 }
 
 $radius: 10px;

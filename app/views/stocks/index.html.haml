@@ -1,28 +1,35 @@
 -# %h2 My Stocks
 
-%table#stocklist.round
-  %tr
-    %th Company
-    %th Symbol
-    %th Value
-    %th Change
-    -#%th
-    -#%th
-    %th
+%div.main_panel
+  %ul.inline
+    %li
+      %table#stocklist.round
+        %tr
+          %th Company
+          %th Symbol
+          %th Value
+          %th Change
+          -#%th
+          -#%th
+          %th
 
-  - @stocks.each do |stock|
-    %tr
-      %td= stock.companyname
-      %td.companysymbol= stock.companysymbol
-      %td.value= stock.value
-      %td.delta= stock.delta
-      -#%td= link_to 'Show', stock
-      -#%td= link_to 'Edit', edit_stock_path(stock)
-      %td= link_to 'Delete', stock, :confirm => 'Are you sure?', :method => :delete
+        - @stocks.each do |stock|
+          %tr
+            %td= stock.companyname
+            %td.companysymbol= stock.companysymbol
+            %td.value= stock.value
+            %td.delta= stock.delta
+            -#%td= link_to 'Show', stock
+            -#%td= link_to 'Edit', edit_stock_path(stock)
+            %td= link_to 'Delete', stock, :confirm => 'Are you sure?', :method => :delete
 
-%br/
-= link_to 'Add a Stock', new_stock_path
-%br/
-%br/
-= link_to 'Update Stocks', stockservice_path
+    %li.right
+      %br/
+      %br/
+      %span.action
+        = link_to 'Add a Stock', new_stock_path
+      %br/
+      %br/
+      %span.action
+        = link_to 'Update Stocks', stockservice_path
 
