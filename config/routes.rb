@@ -1,7 +1,7 @@
 Stockton::Application.routes.draw do
   resources :stocks
 
-  match '/stockservice' => 'stocks#sservice'
+  match '/stockservice' => 'stocks#sservice', :via => :post
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

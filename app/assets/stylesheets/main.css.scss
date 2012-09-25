@@ -1,28 +1,41 @@
 $blue: darken(blue, 10%);
-$main_width: 70%;
-$head_pad: 40px;
+$main_width: 100%;
+$dpad: 40px;
+$main_bg_color: #eef;
 
+$radius: 10px;
+.round {
+  -moz-border-radius:    $radius;
+  -webkit-border-radius: $radius;
+  border-radius:         $radius;
+}
+
+body {
+  background-color: $main_bg_color;
+}
 .header_box {
   width: $main_width;  // don't use?
-  padding-left: $head_pad;
-  padding-right: $head_pad;
   border: 2px solid $blue;
   background-color: cyan;
 }
 .footer_box {
   @extend .header_box;
-  margin-bottom: $head_pad*0.5;
+  margin-bottom: $dpad*0.5;
 }
 a.home, a.home:hover, a.home:visited {
+  padding-left: $dpad;
   text-decoration: none;
   color: blue;
 }
 h4.header {
   padding-top: 4px;
+  padding-right: $dpad;
 }
 table.footer {
   td {
     width: 35%;
+    padding-left: $dpad;
+    padding-right: $dpad;
   }
 }
 .footer_text {
@@ -38,29 +51,41 @@ table.footer {
 .main_panel {
   width: $main_width;  // don't use?
 }
-span.action {
-# padding: $head_pad*0.5;  // useless
+.stock_panel {
+  @extend .round;
+  margin-top: $dpad*0.5;
+  margin-bottom: $dpad*0.5;
+  margin-left: $dpad;
+  margin-right: $dpad;
+  padding: $dpad*0.5;
+  background-color: white;
 }
 table#stocklist {
-  margin-top: $head_pad*0.5;
-  margin-bottom: $head_pad*0.5;
-  margin-left: $head_pad;
-  margin-right: $head_pad;
-  padding: $head_pad*0.5;
-  border: 2px solid black;
-  background-color: #fdf;
-  td.companysymbol, td.value, td.delta {
-    background-color: white;
-    padding-right: $head_pad*0.5;
+  border-collapse: collapse;
+  th, td {
+    padding-right: $dpad*0.5;
+  }
+//td.companysymbol, td.value, td.delta {
+//  background-color: #ddf;
+//  padding-right: $dpad*0.5;
+//}
+  tbody tr:nth-child(even) td, tbody tr.even td {
+    background-color: #ddf;
   }
 }
-
-$radius: 10px;
-.round {
-  -moz-border-radius:    $radius;
-  -webkit-border-radius: $radius;
-  border-radius:         $radius;
+.action_panel {
+  @extend .stock_panel;
+  background-color: $main_bg_color;
+  margin-left: $dpad;
+  padding: 0px;
 }
+.action {
+  @extend .round;
+  margin-right: $dpad*0.5;
+  padding: $dpad*0.25;
+  background-color: white;
+}
+
 .right {
   float: right;
 }
@@ -70,7 +95,7 @@ ul.inline {
   li {
     display: inline-block;
     list-style-type: none;
-#   padding-right: 40px;
+#   padding-right: $dpad;
   }
 }
 li.nostyle {

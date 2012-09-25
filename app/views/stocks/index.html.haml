@@ -1,35 +1,35 @@
 -# %h2 My Stocks
 
 %div.main_panel
-  %ul.inline
-    %li
-      %table#stocklist.round
-        %tr
-          %th Company
-          %th Symbol
-          %th Value
-          %th Change
-          -#%th
-          -#%th
-          %th
-
-        - @stocks.each do |stock|
+  %table.stock_panel
+    %tr
+      %td
+        %table#stocklist
           %tr
-            %td= stock.companyname
-            %td.companysymbol= stock.companysymbol
-            %td.value= stock.value
-            %td.delta= stock.delta
-            -#%td= link_to 'Show', stock
-            -#%td= link_to 'Edit', edit_stock_path(stock)
-            %td= link_to 'Delete', stock, :confirm => 'Are you sure?', :method => :delete
+            %th Company
+            %th Symbol
+            %th Value
+            %th Change
+            -#%th
+            -#%th
+            %th
 
-    %li.right
-      %br/
-      %br/
-      %span.action
-        = link_to 'Add a Stock', new_stock_path
-      %br/
-      %br/
-      %span.action
-        = link_to 'Update Stocks', stockservice_path
+          - @stocks.each do |stock|
+            %tr
+              %td= stock.companyname
+              %td.companysymbol= stock.companysymbol
+              %td.value= stock.value
+              %td.delta= stock.delta
+              -#%td= link_to 'Show', stock
+              -#%td= link_to 'Edit', edit_stock_path(stock)
+              %td= link_to 'Delete', stock, :confirm => 'Are you sure?', :method => :delete
+
+  %table.action_panel
+    %tr
+      %td
+        = button_to 'Add a Stock', new_stock_path, :class => "action", :method => :get
+      %td
+        = button_to 'Delete Selected Stocks', '#', :class => "action"
+      %td
+        = button_to 'Update Stocks', stockservice_path, :class => "action"
 
