@@ -26,10 +26,14 @@ class StocksController < ApplicationController
   def sservice
 # should only call StockService from background task
 # should only receive notification after background task runs
+# should only allow if is_admin?
 
-#   res = StockService.request_stocks()
-#   sash = StockService.parse_response(res)
-    StockService.fake_request()
+#   if !params[:fake_request].nil?
+      StockService.fake_request()
+#   else
+#     res = StockService.request_stocks()
+#     sash = StockService.parse_response(res)
+#   end
 
 ##   sash.each_value do |params|   # similar to update
 ##     stock = Stock.where("companysymbol = ?", params["companysymbol"]).first
@@ -107,6 +111,8 @@ class StocksController < ApplicationController
     @stock = Stock.new(params[:stock])
 #   pp = @stock.valid_request?
 # puts "pp valid? " + pp.to_s
+#   if Stock.find(params[:stock]).any?
+#     add to User's stock list, else try to save ...
 
     respond_to do |format|
       if @stock.valid_request? and @stock.save

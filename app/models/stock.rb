@@ -6,6 +6,7 @@ class Stock < ActiveRecord::Base
 
   validates :companyname,	:presence => true
   validates :companysymbol,	:presence => true,
+				:uniqueness => true,
   				:format => { :with => SREGEX },
  				:length => { :maximum => 4 }
 

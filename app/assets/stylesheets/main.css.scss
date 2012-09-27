@@ -2,6 +2,7 @@ $blue: darken(blue, 10%);
 $main_width: 100%;
 $dpad: 40px;
 $main_bg_color: #eef;
+$header_bg_color: #bdf;
 
 $radius: 10px;
 .round {
@@ -16,7 +17,7 @@ body {
 .header_box {
   width: $main_width;  // don't use?
   border: 2px solid $blue;
-  background-color: cyan;
+  background-color: $header_bg_color;
 }
 .footer_box {
   @extend .header_box;
@@ -44,7 +45,7 @@ table.footer {
     size: 0.8em;
   }
   .contact {
-    margin-left: 40px;
+    margin-left: $dpad;
   }
 }
 

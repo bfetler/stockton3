@@ -67,9 +67,10 @@ puts "  can't update stock " + sash.inspect
     sstr = URI.escape(sstr)  # not needed if I check stock valid? beforehand
     puts "stocks escape uri: " + sstr
 #   uri_str = 'http://finance.yahoo.com/d/quotes.csv?s=GOOG+AAPL+YHOO&f=snlc'
-# max length of uri?
+# max length of uri?  2048 in IE, longer in others.  use POST not GET?
 # need to parse stocks before adding raw text into uri? see uri::http?
     uri_str = 'http://finance.yahoo.com/d/quotes.csv?s=' + sstr + '&f=snlc'
+#   47 chars + 5 * stocks (5 = 4 char + "+"); (2047-47)/5 = 400 stocks max
 #   uri = URI(uri_str)
 #   Net::HTTP.get(uri)
 #   res = Net::HTTP.get_response(uri)

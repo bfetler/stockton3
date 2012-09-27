@@ -12,7 +12,8 @@ describe Stock do
   end
 
   it "should create stock" do
-    Stock.create!(@attr)
+    new_stock = Stock.create!(@attr)
+    new_stock.should be_valid
   end
 
   it "should require a company name" do
@@ -23,6 +24,13 @@ describe Stock do
   it "should require a company symbol" do
     new_stock = Stock.new(@attr.merge(:companysymbol => ""))
     new_stock.should_not be_valid
+  end
+
+  it "should require a unique company symbol" do
+    new_stock = Stock.create!(@attr)
+    new_stock.should be_valid
+    copy_stock = Stock.new(@attr.merge(:companyname => "Ogle"))
+    copy_stock.should_not be_valid
   end
 
   it "company symbol should have no lowercase" do
