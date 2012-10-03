@@ -5,9 +5,6 @@ class StocksController < ApplicationController
   def index
     @stocks = Stock.all
 # @stocks = Stock.where(companysymbol: params["symbols"])
-    @bar = "baroo"
-    @bar = StockService.foo
-#   StockService.request_stocks
 
     respond_to do |format|
       format.html # index.html.erb
@@ -15,18 +12,11 @@ class StocksController < ApplicationController
     end
   end
 
-# how to run background job
-# ruby cmd w/ rails env
-# rails -r  # runner
-# e.g. rails runner "StockService.fake_request"
-# delayed_job, resque + reque scheduler
-# use token, auth?  fastercsv, csv lib
-# see httpparty, rest_client, typhus
 
   def sservice
 # should only call StockService from background task
-# should only receive notification after background task runs
 # should only allow if is_admin?
+# user should receive notification after background task runs
 
 #   if !params[:fake_request].nil?
       StockService.fake_request()
@@ -35,43 +25,13 @@ class StocksController < ApplicationController
 #     sash = StockService.parse_response(res)
 #   end
 
-##   sash.each_value do |params|   # similar to update
-##     stock = Stock.where("companysymbol = ?", params["companysymbol"]).first
-##     if stock.update_attributes(params)
-## puts "updated stock " + params.inspect
-##     else
-## puts "can't update stock " + params.inspect
-##     end
-##   end
-
-# output is ignored, main purpose is to call StockService to update stocks
-#   @stocks = Stock.first
     @stocks = "GOOG"
-
-# Iain from carbon 5 says:
-# rails shortcut to get just a few symbols w/o adding to db
-# http://0.0.0.0:3000/stocks?symbols[]=GOOG&symbols[]=YHOO
-# @stocks = Stock.where(companysymbol: params["symbols"])
-
-# also how does rails know format json?
-# see jQuery getJSON(), sets Request Headers: Accept
-# see firebug GET headers, response
-
-    puts "stocks to_json: " + @stocks.to_json
+# output is ignored, main purpose is to call StockService to update stocks
+#   puts "stocks to_json: " + @stocks.to_json
 
     respond_to do |format|
-#     puts "getservice: format " + format.inspect
-#     format.html { redirect_to :action => "index", notice: 'Stock service redirects to index.' }
       format.html { redirect_to :action => "index" }
-# curl -s 'http://0.0.0.0:3000/getservice' > /dev/null 2>&1
-# wget --header='Accept: application/json' 'http://0.0.0.0:3000/getservice'
-# wget -q -O /dev/null --header='Accept: application/json' 'http://0.0.0.0:3000/getservice' > /dev/null 2>&1
-# try setting headers to application/json instead of default html?
-# next line for less output from cron cmd, not for real html
-#     format.html { puts "getservice redirect_to index"; render json: @stocks }
-#     format.json { render json: "index" }
-# needs the following line for getJSON()
-      format.json { puts "getservice json"; render json: @stocks }
+      format.json { puts "sservice json"; render json: @stocks }
     end
   end
 
@@ -105,12 +65,11 @@ class StocksController < ApplicationController
   # POST /stocks
   # POST /stocks.json
   def create
-# next two lines useful for random test, not for real stock request?
+# next two lines useful for random test, not for real stock request
     params[:stock][:value] = 0.0 if params[:stock][:value].nil?
     params[:stock][:delta] = 0.0 if params[:stock][:delta].nil?
     @stock = Stock.new(params[:stock])
 #   pp = @stock.valid_request?
-# puts "pp valid? " + pp.to_s
 #   if Stock.find(params[:stock]).any?
 #     add to User's stock list, else try to save ...
 
