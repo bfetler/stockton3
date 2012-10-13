@@ -28,4 +28,8 @@
         = button_to 'Delete My Stocks', '#', :class => "action"
       %td
         = button_to 'Update Stocks', stockservice_path, :class => "action"
+      %td
+        = button_to 'Random Test', { :controller => "stocks", :action => "sservice", :update => "random" }, :class => "action"
+      %td
+        = button_to 'Real Update', { :controller => "stocks", :action => "sservice", :update => "real" }, :class => "action"
 

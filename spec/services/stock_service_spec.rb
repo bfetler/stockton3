@@ -11,11 +11,6 @@ describe StockService do
     WebMock.disable_net_connect!
   end
 
-  it "should print foo" do
-    tmp = StockService.foo
-    tmp.should eq("fooiee")
-  end
-
   it "should stub request_stocks" do
 # well this is true by definition, not helpful
     StockService.stub(:request_stocks).and_return("200")
@@ -95,4 +90,29 @@ describe StockService do
     outp[1]["companysymbol"].should eq 'AAPL'
     outp[1]["value"].to_i.should be > 600
   end
+
+  describe "test random variable:" do
+    it "initial random value should be false" do  # no guarantee of order
+      StockService.getrandom().should be false
+    end
+
+    it "setrandom should set true" do
+      StockService.setrandom
+      StockService.getrandom().should be true
+      StockService.unsetrandom  # needed if init random value called after
+    end
+
+    it "unsetrandom should set false" do
+      StockService.unsetrandom
+      StockService.getrandom().should be false
+    end
+
+    it "should parse_response: request('GOOG')" do
+      StockService.unsetrandom
+      outp = StockService.request('GOOG')
+      outp[0]["companysymbol"].should eq 'GOOG'
+      outp[0]["value"].to_i.should be > 600
+    end
+  end
+
 end

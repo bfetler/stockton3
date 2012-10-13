@@ -18,12 +18,15 @@ class StocksController < ApplicationController
 # should only allow if is_admin?
 # user should receive notification after background task runs
 
-#   if !params[:fake_request].nil?
-      StockService.fake_request()
-#   else
-#     res = StockService.request_stocks()
-#     sash = StockService.parse_response(res)
-#   end
+puts "sservice params: " + params.inspect
+
+    if params[:update] == "random"
+      StockService.setrandom
+    elsif params[:update]
+      StockService.unsetrandom
+    end
+
+    StockService.request
 
     @stocks = "GOOG"
 # output is ignored, main purpose is to call StockService to update stocks

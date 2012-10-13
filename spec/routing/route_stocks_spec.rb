@@ -62,7 +62,7 @@ describe "stocks routes" do
     )
   end
 
-  it "POST /stockservice to stocks#sserevice" do
+  it "POST /stockservice to stocks#sservice" do
     { :post => "/stockservice" }.should route_to(
       :controller => "stocks",
       :action => "sservice"

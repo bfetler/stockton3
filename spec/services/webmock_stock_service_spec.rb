@@ -10,11 +10,6 @@ describe "webmock specs" do
 #   WebMock.allow_net_connect!
 # end
 
-  it "should print foo" do
-    tmp = StockService.foo
-    tmp.should eq("fooiee")
-  end
-
   it "webmock should respond to request_stocks('GOOG')" do
     rbody = '"GOOG","Google Inc.","Aug 15 - <b>667.54</b>","-1.12 - -0.17%"'
 #   stub_request(:get,

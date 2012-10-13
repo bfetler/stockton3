@@ -56,4 +56,16 @@ describe StockService do
     end
     3.times.each { Stock.last.destroy }
   end
+
+  it "setrandom request should call fake_request" do
+    StockService.setrandom()  # don't need ()
+    StockService.request()    # should call fake_request()
+    stock1 = Stock.first
+    stock1.value.to_f.should be < 105.0
+    stock1.value.to_f.should be >  95.0
+    stock1.delta.to_f.should be <   5.0
+    stock1.delta.to_f.should be >  -5.0
+#   StockService.unsetrandom()
+  end
+
 end

@@ -5,7 +5,7 @@ class StockService
 # define stock symbol list, keep in cache (local variable) or db?
 # keep in class variable in StockService, get with an action?
 
-  def self.fake_request()
+  def self.fake_request()   # should handle (*stocks)?
 puts "fake_request"
     stocklist = Stock.all
     stocks = []
@@ -43,7 +43,7 @@ puts "  can't update stock " + sash.inspect
 
     puts "stocks is an Array? " + stocks.is_a?(Array).to_s
     sstr = stocks.join("+")
-#   puts "stocks: " + sstr
+    puts "stocks: " + sstr
 # need to parse stocks before adding raw text into uri? see uri::http?
     sstr = URI.escape(sstr)  # not needed if I check stock valid? beforehand
     puts "stocks escape uri: " + sstr
@@ -116,7 +116,31 @@ puts "fetch get_response uri: " + uri_str
     end
   end
 
-  def self.read_stocks
-# read and parse outf, return values
+  def self.setrandom()
+    @@random = true
   end
+
+  def self.unsetrandom()
+    @@random = false
+  end
+
+  def self.getrandom()  # for testing only
+    @@random
+  end
+
+# private
+    @@random = false
+#   @@running = true
+
+# public
+# def self.request_values()
+  def self.request(*stocks)
+    if @@random
+      StockService.fake_request(*stocks)  # needs to parse?
+    else
+      res = StockService.request_stocks(*stocks)
+      StockService.parse_response(res)
+    end
+  end
+
 end
