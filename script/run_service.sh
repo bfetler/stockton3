@@ -25,7 +25,8 @@ echo "start rails runner" >> /tmp/stockton.tmp
 # rvm wrapper ruby-1.9.3-p125@gemsetaa stockton rails
 #   => /home/ub2/.rvm/bin/stockton_rails   which is just a soft link
 #      to /home/ub2/.rvm/wrappers/ruby-1.9.3-p125/rails
-/home/ub2/.rvm/bin/stockton_rails runner -e development "StockService.fake_request" >> /tmp/stockton.tmp 2>&1
+# /home/ub2/.rvm/bin/stockton_rails runner -e development "StockService.fake_request" >> /tmp/stockton.tmp 2>&1
+/home/ub2/.rvm/bin/stockton_rails runner -e development "StockService.request" >> /tmp/stockton.tmp 2>&1
 # /home/ub2/.rvm/wrappers/ruby-1.9.3-p125/rails runner -e development "StockService.fake_request" >> /tmp/stockton.tmp 2>&1
 
 # gives error:
