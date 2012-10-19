@@ -1,4 +1,6 @@
 Stockton::Application.routes.draw do
+  devise_for :users
+
   resources :stocks
 
   match '/stockservice' => 'stocks#sservice', :via => :post
