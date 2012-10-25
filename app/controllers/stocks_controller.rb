@@ -1,4 +1,5 @@
 class StocksController < ApplicationController
+  before_filter :authenticate_user!, :except => [:home]
 
   # GET /stocks
   # GET /stocks.json
@@ -35,6 +36,18 @@ puts "sservice params: " + params.inspect
     respond_to do |format|
       format.html { redirect_to :action => "index" }
       format.json { puts "sservice json"; render json: @stocks }
+    end
+  end
+
+  def home
+    if user_signed_in?
+      redirect_to stocks_path
+    else
+#     render :layout => false
+#     render 'users/sign_in'
+#     render 'devise/sessions/new'
+#     redirect_to :controller => "devise/sessions", :action => "new"
+      redirect_to new_user_session_path
     end
   end
 
