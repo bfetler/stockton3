@@ -1,0 +1,9 @@
+%div.user_header
+  -if user_signed_in?
+    %span
+      = 'User: ' + current_user.email
+    %br
+    %span
+      = link_to "Sign Out", destroy_user_session_path, :method => :delete, :class => "user_link"
+  -else
+    = link_to "User Sign In", new_user_session_path, :class => "user_link"
