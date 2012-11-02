@@ -88,7 +88,7 @@ describe StockService do
     outp[0]["companysymbol"].should eq 'GOOG'
     outp[0]["value"].to_i.should be > 600
     outp[1]["companysymbol"].should eq 'AAPL'
-    outp[1]["value"].to_i.should be > 600
+    outp[1]["value"].to_i.should be > 550
   end
 
   describe "test random variable:" do

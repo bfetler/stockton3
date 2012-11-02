@@ -10,9 +10,9 @@ describe "stocks routes" do
     )
   end
 
-  it "GET root to stocks#index" do
+  it "GET root to stocks#home" do
     { :get => "/" }.should route_to(
-      "stocks#index"  # shortcut notation, same as above
+      "stocks#home"  # shortcut notation, same as above
     )
   end
 
