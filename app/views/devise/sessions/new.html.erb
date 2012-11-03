@@ -1,10 +1,10 @@
-<%= render :partial => "users/shared/links" %>
+<%= render :partial => "devise/shared/links" %>
 
 <div class="userbox round">
 
 <h3>User Sign In</h3>
 
-<%= render :partial => "users/shared/notices" %>
+<%= render :partial => "devise/shared/notices" %>
 
 <%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
   <p><%= f.label :email %><br />
