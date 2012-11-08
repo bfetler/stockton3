@@ -14,18 +14,23 @@ describe StocksController do
 
   describe "GET index" do
     before(:each) do
+      @request.env["devise.mapping"] = Devise.mappings[:user]
       @attr = { :companyname      => "Google",
                 :companysymbol    => "GOOG",
                 :value            => "567.8",
                 :delta            => "12.3"
               }
-      @user = { :email => "fred@flintstone.com",
-                :password => "abc123"
-              }
+#     @user = { :email => "fred@flintstone.com",
+#               :password => "abc123"
+#             }
       Stock.create!(@attr)
-      User.create!(@user)
+#     User.create!(@user)
 #     let (:user) { User.create!(@user) }
-#     sign_in user
+#     @user.confirm!
+#     sign_in @user
+
+      user = FactoryGirl.create(:user)
+      sign_in user
     end
 
     it "stub all stocks to @stocks" do

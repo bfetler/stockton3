@@ -65,7 +65,7 @@ describe StockService do
     stock1.value.to_f.should be >  95.0
     stock1.delta.to_f.should be <   5.0
     stock1.delta.to_f.should be >  -5.0
-#   StockService.unsetrandom()
+   StockService.unsetrandom()
   end
 
 end

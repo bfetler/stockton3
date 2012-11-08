@@ -7,4 +7,9 @@ FactoryGirl.define do
     sequence(:value) { |n| "#{n}00" }
     delta         "10"
   end
+
+  factory :user do
+    sequence(:email, 'A') { |a| "wilma#{a}@flintstone.com" }
+    password  "abc123"
+  end
 end
