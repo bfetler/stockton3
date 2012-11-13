@@ -23,14 +23,16 @@ describe StocksController do
 #     @user = { :email => "fred@flintstone.com",
 #               :password => "abc123"
 #             }
-      Stock.create!(@attr)
-#     User.create!(@user)
+#     user = User.create!(@user)  # works
+
 #     let (:user) { User.create!(@user) }
 #     @user.confirm!
 #     sign_in @user
 
       user = FactoryGirl.create(:user)
       sign_in user
+
+      Stock.create!(@attr)
     end
 
     it "stub all stocks to @stocks" do
