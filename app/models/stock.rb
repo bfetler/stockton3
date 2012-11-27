@@ -1,4 +1,6 @@
 class Stock < ActiveRecord::Base
+  has_many :users, :through => :user_stocks
+  has_many :user_stocks
   attr_accessible :companyname, :companysymbol, :delta, :value
 
 # stock_regex = /\A[A-Z]{1,4}\Z/

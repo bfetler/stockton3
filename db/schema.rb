@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121019225452) do
+ActiveRecord::Schema.define(:version => 20121127015758) do
 
   create_table "stocks", :force => true do |t|
     t.string   "companyname"
@@ -23,6 +23,13 @@ ActiveRecord::Schema.define(:version => 20121019225452) do
   end
 
   add_index "stocks", ["companysymbol"], :name => "index_stocks_on_companysymbol", :unique => true
+
+  create_table "user_stocks", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "stock_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "users", :force => true do |t|
     t.string   "email",                              :default => "",    :null => false

@@ -4,6 +4,6 @@ class AddStockSymbolUniqueness < ActiveRecord::Migration
   end
 
   def down
-    remove_index :stocks, :companysymbol
+#   remove_index :stocks, :companysymbol
   end
 end
