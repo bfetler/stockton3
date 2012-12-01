@@ -51,6 +51,8 @@ puts "  can't update stock " + sash.inspect
     uri_str = 'http://finance.yahoo.com/d/quotes.csv?s=' + sstr + '&f=snlc'
 # max length of uri?  2048 in IE, longer in others.  use POST not GET?
 #   47 chars + 5 * stocks (5 = 4 char + "+"); (2047-47)/5 = 400 stocks max
+# if doing in a loop, could start a thread for each rather than
+#   wait for response --jonah c5
 
     res = self.fetch_uri(uri_str, 10)
     puts "res: "
@@ -87,7 +89,7 @@ puts "can't update stock " + sash.inspect
 
       outp[index] = sash
     end
-# should just update model here, send msg to redisplay view?
+# just update model here, could send msg to redisplay view?
 #     websockets?  ajax?  backbone?
 # what happens if there are many, many stocks?
     puts outp.inspect
@@ -111,6 +113,8 @@ puts "fetch get_response uri: " + uri_str
       location = response['location']
       warn "redirected to #{location}"
       self.fetch_uri(location, limit - 1)
+# 400 my request error
+# 500 their request error
     else
       response.value
     end

@@ -4,12 +4,13 @@ class StocksController < ApplicationController
   # GET /stocks
   # GET /stocks.json
   def index
-    @stocks = Stock.all
+#   @stocks = Stock.all
 # @stocks = Stock.where(companysymbol: params["symbols"])
+    @stocks = current_user.stocks
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @stocks }
+#     format.json { render json: @stocks }  # needed for getJSON
     end
   end
 
@@ -81,20 +82,45 @@ puts "sservice params: " + params.inspect
   # POST /stocks
   # POST /stocks.json
   def create
-# next two lines useful for random test, not for real stock request
-    params[:stock][:value] = 0.0 if params[:stock][:value].nil?
-    params[:stock][:delta] = 0.0 if params[:stock][:delta].nil?
+# next two lines useful for both random test and real stock request
+#   params[:stock][:value] = 0.0 if params[:stock][:value].nil?
+#   params[:stock][:delta] = 0.0 if params[:stock][:delta].nil?
     @stock = Stock.new(params[:stock])
 #   pp = @stock.valid_request?
 #   if Stock.find(params[:stock]).any?
 #     add to User's stock list, else try to save ...
 
+#   Stock in current_user.stocks ?
+#   Stock.where(stocksymbol = ?)
+
+# if Stock.new fails, these will both be empty, which is fine
+    in_stocklist = current_user.stocks.select do |s|
+      s.companysymbol == @stock.companysymbol
+    end
+    in_db = Stock.where("companysymbol = ?", @stock.companysymbol)
+    puts "already in stocklist? " + in_stocklist.any?.to_s
+    puts "already in db? " + in_db.any?.to_s
+
     respond_to do |format|
-      if @stock.valid_request? and @stock.save
+      if in_stocklist.any?
+  puts "stock already in current user list: " + @stock.companysymbol
+        format.html { redirect_to :action => "index" }
+        format.json { render json: @stock, status: :created, location: @stock }
+#     elsif (in_db.any?) || (@stock.valid_request? and @stock.save)
+      elsif in_db.any?
+puts "adding stock in db to current user list: " + @stock.companysymbol
+        current_user.stocks << @stock  # turn this line into a method?
+        format.html { redirect_to :action => "index" }
+        format.json { render json: @stock, status: :created, location: @stock }
+      elsif @stock.valid_request? and @stock.save
+#     if @stock.valid_request? and @stock.save
+puts "save stock, add to current user list: " + @stock.companysymbol
+        current_user.stocks << @stock  # turn this line into a method?
 #       format.html { redirect_to @stock, notice: 'Stock was successfully created.' }
         format.html { redirect_to :action => "index" }
         format.json { render json: @stock, status: :created, location: @stock }
       else
+puts "cannot add stock: " + @stock.companysymbol
         format.html { render action: "new" }
         format.json { render json: @stock.errors, status: :unprocessable_entity }
       end
@@ -121,6 +147,7 @@ puts "sservice params: " + params.inspect
   # DELETE /stocks/1.json
   def destroy
     @stock = Stock.find(params[:id])
+    @stock.users.clear
     @stock.destroy
 
     respond_to do |format|

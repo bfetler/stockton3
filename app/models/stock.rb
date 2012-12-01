@@ -1,5 +1,5 @@
 class Stock < ActiveRecord::Base
-  has_many :users, :through => :user_stocks
+  has_many :users, :through => :user_stocks, :validate => false
   has_many :user_stocks
   attr_accessible :companyname, :companysymbol, :delta, :value
 
