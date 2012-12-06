@@ -45,6 +45,8 @@ gem 'devise', '1.4.2'
 
 gem 'delayed_job_active_record', '0.3.2'
 
+gem 'girl_friday', '0.11.1'
+
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 

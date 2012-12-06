@@ -1,6 +1,6 @@
 class StocksController < ApplicationController
   before_filter :authenticate_user!, :except => [:home]
-  before_filter :isadmin?, :only => [:sservice, :destroy]
+  before_filter :isadmin?, :only => [:sservice]
 
   # GET /stocks
   # GET /stocks.json
@@ -99,6 +99,7 @@ puts "sservice params: " + params.inspect
     in_stocklist = current_user.stocks.select do |s|
       s.companysymbol == @stock.companysymbol
     end
+#   could use current_user.stocks.where(companysymbol ...)
     in_db = Stock.where("companysymbol = ?", @stock.companysymbol)
     puts "already in stocklist? " + in_stocklist.any?.to_s
     puts "already in db? " + in_db.any?.to_s
@@ -111,7 +112,8 @@ puts "sservice params: " + params.inspect
 #     elsif (in_db.any?) || (@stock.valid_request? and @stock.save)
       elsif in_db.any?
 puts "adding stock in db to current user list: " + @stock.companysymbol
-        current_user.stocks << @stock  # turn this line into a method?
+puts "stock in db: " + in_db.to_s
+        current_user.stocks << in_db  # turn this line into a method?
         format.html { redirect_to :action => "index" }
         format.json { render json: @stock, status: :created, location: @stock }
       elsif @stock.valid_request? and @stock.save
@@ -148,6 +150,7 @@ puts "cannot add stock: " + @stock.companysymbol
   # DELETE /stocks/1
   # DELETE /stocks/1.json
   def destroy
+# should only destroy if admin; else just remove from current_user.stocks
     @stock = Stock.find(params[:id])
     @stock.users.clear
     @stock.destroy
