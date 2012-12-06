@@ -12,6 +12,18 @@ class Stock < ActiveRecord::Base
   				:format => { :with => SREGEX },
  				:length => { :maximum => 4 }
 
+  def self.in_db?(symba)  # class method
+#   ab = Stock.where("companysymbol = ?", symba)
+    ab = self.where("companysymbol = ?", symba)
+    return ab.any?
+  end
+
+  def is_in_db?    # instance method
+    puts "is_in_db companysymbol: " + self.companysymbol
+    ab = Stock.where("companysymbol = ?", self.companysymbol)
+    return ab.any?
+  end
+
 # validate :valid_request?
 
 # StockService.request_stocks() response:
@@ -26,6 +38,7 @@ class Stock < ActiveRecord::Base
 #   {"companysymbol"=>"ZYX", "value"=>"0.00", "delta"=>"-"}
 
   def valid_request?
+    return true  # avoid internet fail
 # only want to run this on create(), not update()
 # validations run on both, use separate call
 #   if # companysymbol.valid?

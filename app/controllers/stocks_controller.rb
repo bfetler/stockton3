@@ -8,6 +8,7 @@ class StocksController < ApplicationController
 #   @stocks = Stock.all
 # @stocks = Stock.where(companysymbol: params["symbols"])
     @stocks = current_user.stocks
+# check_random_flag()
 
     respond_to do |format|
       format.html # index.html.erb
@@ -84,8 +85,8 @@ puts "sservice params: " + params.inspect
   # POST /stocks.json
   def create
 # next two lines useful for both random test and real stock request
-#   params[:stock][:value] = 0.0 if params[:stock][:value].nil?
-#   params[:stock][:delta] = 0.0 if params[:stock][:delta].nil?
+    params[:stock][:value] = 0.0 if params[:stock][:value].nil?
+    params[:stock][:delta] = 0.0 if params[:stock][:delta].nil?
     @stock = Stock.new(params[:stock])
 #   pp = @stock.valid_request?
 #   if Stock.find(params[:stock]).any?

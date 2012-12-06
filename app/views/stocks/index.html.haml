@@ -26,10 +26,11 @@
         = button_to 'Add a Stock', new_stock_path, :class => "action", :method => :get
       %td
         = button_to 'Delete My Stocks', '#', :class => "action"
-      %td
-        = button_to 'Update Stocks', stockservice_path, :class => "action"
-      %td
-        = button_to 'Random Test', { :controller => "stocks", :action => "sservice", :update => "random" }, :class => "action"
-      %td
-        = button_to 'Real Update', { :controller => "stocks", :action => "sservice", :update => "real" }, :class => "action"
+      - if current_user.admin?
+        %td
+          = button_to 'Update Stocks', stockservice_path, :class => "action"
+        %td
+          = button_to 'Random Test', { :controller => "stocks", :action => "sservice", :update => "random" }, :class => "action"
+        %td
+          = button_to 'Real Update', { :controller => "stocks", :action => "sservice", :update => "real" }, :class => "action"
 
