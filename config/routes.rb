@@ -5,6 +5,7 @@ Stockton::Application.routes.draw do
 
   match '/stockservice' => 'stocks#sservice', :via => :post
   match '/home' => 'stocks#home', :as => 'home'
+  match '/guestlog' => 'stocks#guestlog', :as => 'guestlog'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

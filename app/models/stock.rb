@@ -38,7 +38,7 @@ class Stock < ActiveRecord::Base
 #   {"companysymbol"=>"ZYX", "value"=>"0.00", "delta"=>"-"}
 
   def valid_request?
-    return true  # avoid internet fail
+#   return true  # avoid internet fail
 # only want to run this on create(), not update()
 # validations run on both, use separate call
 #   if # companysymbol.valid?

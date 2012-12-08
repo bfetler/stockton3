@@ -1,5 +1,5 @@
 class StocksController < ApplicationController
-  before_filter :authenticate_user!, :except => [:home]
+  before_filter :authenticate_user!, :except => [:home, :guestlog]
   before_filter :isadmin?, :only => [:sservice]
 
   # GET /stocks
@@ -9,6 +9,7 @@ class StocksController < ApplicationController
 # @stocks = Stock.where(companysymbol: params["symbols"])
     @stocks = current_user.stocks
 # check_random_flag()
+    puts "session: " + session.to_s
 
     respond_to do |format|
       format.html # index.html.erb
@@ -43,6 +44,9 @@ puts "sservice params: " + params.inspect
   end
 
   def home
+    c = current_user_or_guest
+    puts "home current_user_or_guest: " + c.to_s + " ; class " + c.class.to_s
+#   puts "home current_user_or_guest methods: " + c.methods.to_s
     if user_signed_in?
       redirect_to stocks_path
     else
@@ -52,6 +56,16 @@ puts "sservice params: " + params.inspect
 #     redirect_to :controller => "devise/sessions", :action => "new"
       redirect_to new_user_session_path
     end
+  end
+
+  def guestlog
+    if params[:guest] == "login"
+      session[:guest_login] = true
+    elsif params[:guest]
+      session[:guest_login] = nil
+    end
+#   redirect_to home_path
+    redirect_to stocks_path
   end
 
   # GET /stocks/1

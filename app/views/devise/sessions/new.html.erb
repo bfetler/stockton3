@@ -2,7 +2,7 @@
 
 <div class="userbox round">
 
-<h3 class="right"><%= link_to 'Guest Sign In', user_session, :method => :post, :email => "guest@stockton.com", :password => "abc789" %></h3>
+<h3 class="right"><%= button_to 'Guest Sign In', guestlog_path, :method => :get, :guest => "login" %></h3>
 <h3>User Sign In</h3>
 
 <%= render :partial => "devise/shared/notices" %>

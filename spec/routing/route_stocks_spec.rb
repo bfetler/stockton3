@@ -68,4 +68,11 @@ describe "stocks routes" do
       :action => "sservice"
     )
   end
+
+  it "GET /guestlog to stocks#guest_log" do
+    { :get => "/guestlog" }.should route_to(
+      :controller => "stocks",
+      :action => "guestlog"
+    )
+  end
 end

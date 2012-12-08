@@ -43,4 +43,31 @@ puts "[stock] = " + [stock].inspect
       assigns(:stocks).should eq([stock])
     end 
   end 
+
+  describe "guest log" do
+    it "should get guestlog" do
+      get 'guestlog'
+      response.should be_success
+    end
+
+    it "should login guest" do
+      get 'guestlog', :guest => "login"
+      session[:guest_login].should be_true
+    end
+
+    it "should logout guest" do
+      get 'guestlog', :guest => "logout"
+      session[:guest_login].should_not be_true
+    end
+
+    it "should logout guest w/ empty string" do
+      get 'guestlog', :guest => ""
+      session[:guest_login].should_not be_true
+    end
+
+    it "current_user_or_guest method should exist" do
+      current_user_or_guest.should_not be_nil
+    end
+  end
+
 end

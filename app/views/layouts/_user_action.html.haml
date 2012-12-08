@@ -5,5 +5,5 @@
     %br
     %span
       = link_to "Sign Out", destroy_user_session_path, :method => :delete, :class => "user_link"
-  -else
+  -#else
     = link_to "User Sign In", new_user_session_path, :class => "user_link"
