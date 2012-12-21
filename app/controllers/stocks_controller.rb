@@ -1,6 +1,7 @@
 class StocksController < ApplicationController
   before_filter :authenticate_user!, :except => [:home, :guestlog]
   before_filter :isadmin?, :only => [:sservice]
+# include ApplicationHelper
 
   # GET /stocks
   # GET /stocks.json

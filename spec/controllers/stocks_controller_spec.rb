@@ -1,4 +1,9 @@
 require 'spec_helper'
+# require 'support/devise'  # same as spec_helper
+# helper_method :current_user_or_guest
+include Devise::TestHelpers
+include ApplicationHelper
+# I suppose I could stub current_user ... bleah
 
 describe StocksController do
 # views must exist, but can be empty files (unless render_views)
@@ -45,6 +50,10 @@ puts "[stock] = " + [stock].inspect
   end 
 
   describe "guest log" do
+#   before(:each) do
+#     @request.env["devise.mapping"] = Devise.mappings[:user]
+#   end
+
     it "should get guestlog" do
       get 'guestlog'
       response.should be_success
