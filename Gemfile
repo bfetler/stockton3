@@ -42,6 +42,7 @@ gem 'jquery-rails', '2.0.2'
 gem 'haml-rails', '0.3.4'
 
 gem 'devise', '1.4.2'
+# gem 'devise', '2.1.2'
 
 gem 'delayed_job_active_record', '0.3.2'
 

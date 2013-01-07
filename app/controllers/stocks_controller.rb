@@ -1,14 +1,17 @@
 class StocksController < ApplicationController
-  before_filter :authenticate_user!, :except => [:home, :guestlog]
+  before_filter :authenticate_user_or_guest, :except => [:home, :guestlog]
   before_filter :isadmin?, :only => [:sservice]
 # include ApplicationHelper
 
   # GET /stocks
   # GET /stocks.json
   def index
+    puts "current_user_or_guest: " + current_user_or_guest.email
+
 #   @stocks = Stock.all
 # @stocks = Stock.where(companysymbol: params["symbols"])
-    @stocks = current_user.stocks
+#   @stocks = current_user.stocks
+    @stocks = current_user_or_guest.stocks
 # check_random_flag()
     puts "session: " + session.to_s
 
@@ -46,9 +49,11 @@ puts "sservice params: " + params.inspect
 
   def home
     c = current_user_or_guest
-    puts "home current_user_or_guest: " + c.to_s + " ; class " + c.class.to_s
+    puts "session(home): " + session.to_s
+    puts "home current_user_or_guest: " + c.to_s + " ; class " + c.class.to_s 
+#   puts "home current_user_or_guest email " + c.email
 #   puts "home current_user_or_guest methods: " + c.methods.to_s
-    if user_signed_in?
+    if user_signed_in? || isguest?
       redirect_to stocks_path
     else
 #     render :layout => false
@@ -60,13 +65,18 @@ puts "sservice params: " + params.inspect
   end
 
   def guestlog
+#   session[:guest_login] = nil
+puts "guestlog params: " + params.to_s  
+# {"controller"=>"stocks", "action"=>"guestlog"}
     if params[:guest] == "login"
       session[:guest_login] = true
+      redirect_to stocks_path
     elsif params[:guest]
       session[:guest_login] = nil
+      redirect_to home_path
     end
 #   redirect_to home_path
-    redirect_to stocks_path
+#   redirect_to stocks_path
   end
 
   # GET /stocks/1
@@ -111,7 +121,7 @@ puts "sservice params: " + params.inspect
 #   Stock.where(stocksymbol = ?)
 
 # if Stock.new fails, these will both be empty, which is fine
-    in_stocklist = current_user.stocks.select do |s|
+    in_stocklist = current_user_or_guest.stocks.select do |s|
       s.companysymbol == @stock.companysymbol
     end
 #   could use current_user.stocks.where(companysymbol ...)
@@ -128,13 +138,13 @@ puts "sservice params: " + params.inspect
       elsif in_db.any?
 puts "adding stock in db to current user list: " + @stock.companysymbol
 puts "stock in db: " + in_db.to_s
-        current_user.stocks << in_db  # turn this line into a method?
+        current_user_or_guest.stocks << in_db  # turn this line into a method?
         format.html { redirect_to :action => "index" }
         format.json { render json: @stock, status: :created, location: @stock }
       elsif @stock.valid_request? and @stock.save
 #     if @stock.valid_request? and @stock.save
 puts "save stock, add to current user list: " + @stock.companysymbol
-        current_user.stocks << @stock  # turn this line into a method?
+        current_user_or_guest.stocks << @stock  # turn this line into a method?
 #       format.html { redirect_to @stock, notice: 'Stock was successfully created.' }
         format.html { redirect_to :action => "index" }
         format.json { render json: @stock, status: :created, location: @stock }
