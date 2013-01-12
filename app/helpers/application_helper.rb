@@ -9,33 +9,17 @@ module ApplicationHelper
   end
 
   def isguest?
-    session[:guest_login]
-  end
-
-  def current_user_or_guest
-    res = current_user
-    if res.nil?
-puts "res was nil"
-      guest = User.where("role = ?", "guest").first
-puts "session(cg): " + session.to_s
-      if session[:guest_login] and guest.is_a? User
-        res = guest
-      end
-    end
-    res
-  end
-
-  def authenticate_user_or_guest
-    res = false
-    if current_user.nil?
-      guest = User.where("role = ?", "guest").first
-puts "session(cg): " + session.to_s
-      if session[:guest_login] and guest.is_a? User
-        res = true
-      end
+#   session[:guest_login]
+    if user_signed_in?
+      current_user.role == "guest"
     else
-      authenticate_user!
+      false
     end
+  end
+
+  def guest_user
+    guest = User.where("role = ?", "guest").first
+#   create if nil?
   end
 
 end
