@@ -50,19 +50,27 @@ puts "[stock] = " + [stock].inspect
   end 
 
   describe "guest log" do
-#   before(:each) do
-#     @request.env["devise.mapping"] = Devise.mappings[:user]
-#   end
+    before(:each) do
+      @request.env["devise.mapping"] = Devise.mappings[:user]
+      factory_guest = FactoryGirl.create(:user)
+      factory_guest.role = "guest"
+puts "saving factory_guest"
+      factory_guest.save
+puts "saved factory_guest"
+    end
 
     it "should get guestlog" do
       get 'guestlog'
-      response.should be_success
+#     response.should be_success  # not! it redirects
+      expect(response).to redirect_to(stocks_path)
     end
 
     it "should login guest" do
       get 'guestlog', :guest => "login"
 #     need to create guest_user
 #     session[:guest_login].should be_true
+#     current_user.should be(factory_guest)
+      expect(response).to redirect_to(stocks_path)
     end
   end
 
