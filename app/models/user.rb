@@ -11,4 +11,8 @@ class User < ActiveRecord::Base
   attr_accessible :email, :password, :password_confirmation, :remember_me
   # attr_accessible :title, :body
   attr_accessible :role
+  
+  def guest?
+    self.role == "guest"
+  end
 end

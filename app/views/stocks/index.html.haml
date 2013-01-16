@@ -18,22 +18,19 @@
               %td.companysymbol= stock.companysymbol
               %td.value= stock.value
               %td.delta= stock.delta
-              %td= link_to 'Delete', stock, :confirm => 'Are you sure?', :method => :delete
+              - if current_user.admin?
+                %td= link_to 'Delete', stock, :confirm => 'Are you sure?', :method => :delete
 
   %table.action_panel
     %tr
       %td
         = button_to 'Add a Stock', new_stock_path, :class => "action", :method => :get
-      %td
-        = button_to 'Delete My Stocks', '#', :class => "action"
-      - if isguest?
+      - if !current_user.admin?
         %td
-          = link_to 'Random Test', { :action => "index", :random => "true"}, :class => "action"
+          = button_to 'Clear My Stocks', @stocks.last, :method => :delete, :class => "action"
+      - if current_user.guest? || current_user.admin?
+        %td
+          = link_to 'Random Test', { :controller => "stocks", :action => "index", :random => "true" }, :class => "action"
       - if current_user.admin?
         %td
           = button_to 'Update Stocks', stockservice_path, :class => "action"
-        %td
-          = button_to 'Random Test', { :controller => "stocks", :action => "sservice", :update => "random" }, :class => "action"
-        %td
-          = button_to 'Real Update', { :controller => "stocks", :action => "sservice", :update => "real" }, :class => "action"
-

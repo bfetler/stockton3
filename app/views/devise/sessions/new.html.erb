@@ -3,9 +3,8 @@
 <div class="userbox round">
 
 <h3 class="right"><%#= link_to 'Guest Sign In', guestlog_path, :method => :get, :guest => "login" %></h3>
-<h3 class="right"><%= link_to 'Guest Sign In', { :controller => "/stocks", :action => "guestlog", :guest => "login"}, :method => :get %></h3>
-<h3 class="right"><%#= button_to 'Guest Sign In', guestlog_path, :method => :get, :form => {"guest" => "login"} %></h3>
-<h3 class="right"><%#= button_to 'Guest Sign In', { :controller => "/stocks", :action => "guestlog" }, :method => :get, :form => {:guest => "login"} %></h3>
+<h3 class="right"><%#= link_to 'Guest Sign In', { :controller => "/stocks", :action => "guestlog", :guest => "login"}, :method => :get %></h3>
+<h3 class="right"><%= button_to 'Guest Sign In', { :controller => "/stocks", :action => "guestlog", :guest => "login"}, :class => "guest_action" %></h3>
 <h3>User Sign In</h3>
 
 <%= render :partial => "devise/shared/notices" %>

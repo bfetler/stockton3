@@ -8,16 +8,6 @@ module ApplicationHelper
 #   true
   end
 
-  def isguest?
-#   session[:guest_login]
-    if user_signed_in?
-      current_user.role == "guest"
-#     current_user.email == "guest@stockton.com"
-    else
-      false
-    end
-  end
-
   def guest_user
 #   guest = User.where("role = ?", "guest").first
     guest = User.where("email = ?", "guest@stockton.com").first

@@ -8,10 +8,12 @@ class StocksController < ApplicationController
   def index
     puts "current_user: " + current_user.email
     puts "params: " + params.to_s
+#   puts current_user.methods.sort.join(", ")
 
 #   @stocks = Stock.all
 # @stocks = Stock.where(companysymbol: params["symbols"])
     @stocks = current_user.stocks
+    @stocks = Stock.all if current_user.admin?
 # check_random_flag()
     if params[:random] == "true"  # gets appended to URL, not optimal
       puts "stocks class: " + @stocks.class.to_s + " " + @stocks.count.to_s
@@ -46,10 +48,6 @@ puts "sservice params: " + params.inspect
   end
 
   def home
-    c = current_user
-    puts "session(home): " + session.to_s
-    puts "home current_user: " + c.to_s + " ; class " + c.class.to_s 
-#   if user_signed_in? || isguest?
     if user_signed_in?
       redirect_to stocks_path
     else
@@ -66,7 +64,7 @@ puts "sservice params: " + params.inspect
 puts "guestlog params: " + params.to_s  
 # {"controller"=>"stocks", "action"=>"guestlog"}
     if params[:guest] == "login"
-      session[:guest_login] = true
+#     session[:guest_login] = true
       sign_in guest_user
     end
     redirect_to stocks_path
@@ -164,14 +162,18 @@ puts "cannot add stock: " + @stock.companysymbol
       end
     end
   end
-
+  
   # DELETE /stocks/1
   # DELETE /stocks/1.json
   def destroy
 # should only destroy if admin; else just remove from current_user.stocks
-    @stock = Stock.find(params[:id])
-    @stock.users.clear
-    @stock.destroy
+    if current_user.admin?
+      @stock = Stock.find(params[:id])
+      @stock.users.clear
+      @stock.destroy
+    else
+      current_user.stocks.clear
+    end
 
     respond_to do |format|
       format.html { redirect_to stocks_url }

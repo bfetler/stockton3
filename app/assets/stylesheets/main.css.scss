@@ -86,6 +86,10 @@ table#stocklist {
   padding: $dpad*0.25;
   background-color: white;
 }
+.guest_action {
+  @extend .action;
+  background-color: #ddaaff;
+}
 
 .right {
   float: right;
