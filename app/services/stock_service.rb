@@ -35,9 +35,8 @@ puts "  can't update stock " + sash.inspect
 # for background process, just get list of all stocks
 # use arg *stocks to test if a stock is valid?
     if stocks.empty?
-      stocklist = Stock.all
       stocks = []
-      stocklist.each { |s| stocks << s.companysymbol }
+      Stock.all.each { |s| stocks << s.companysymbol }
     end
 #   stocklist = Stock.find(:all).collect(&:companysymbol)
 #   puts "stocklist: " + stocklist.inspect
@@ -80,6 +79,7 @@ puts "  can't update stock " + sash.inspect
 puts "stock db: " + stock.inspect
       if stock.nil?   # true if test env, or if not yet in db
         stock = Stock.new(sash)
+        stock.save
       else
         if stock.update_attributes(sash)
 puts "updated stock " + sash.inspect

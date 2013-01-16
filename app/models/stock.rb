@@ -55,6 +55,7 @@ class Stock < ActiveRecord::Base
 # only want to run this on create(), not update()
 # validations run on both, use separate call
 #   if # companysymbol.valid?
+puts "valid_request self: " + self.inspect
     if self.companysymbol.match(SREGEX)
 puts "company symbol passes regex"
 #     only send http request if matches regex
@@ -71,6 +72,9 @@ puts "company symbol passes regex"
           value = s.split(/[<>]/)[2]
           delta = s.split(/,/)[3][/[0-9+-\.]+/]
   puts "value=" + value + " delta=" + delta
+          # set new value, delta in self params
+          self["value"] = value
+          self["delta"] = delta
         end
         if value == "0.00" && delta == "-"
 # don't need both conditions to fail?
