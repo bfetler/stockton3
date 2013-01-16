@@ -12,8 +12,11 @@ class StocksController < ApplicationController
 
 #   @stocks = Stock.all
 # @stocks = Stock.where(companysymbol: params["symbols"])
-    @stocks = current_user.stocks
-    @stocks = Stock.all if current_user.admin?
+    if current_user.admin?
+      @stocks = Stock.all
+    else
+      @stocks = current_user.stocks
+    end
 # check_random_flag()
     if params[:random] == "true"  # gets appended to URL, not optimal
       puts "stocks class: " + @stocks.class.to_s + " " + @stocks.count.to_s
