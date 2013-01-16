@@ -26,9 +26,9 @@
         = button_to 'Add a Stock', new_stock_path, :class => "action", :method => :get
       %td
         = button_to 'Delete My Stocks', '#', :class => "action"
-      -# if isguest?
+      - if isguest?
         %td
-          = link_to 'Guest Sign Out', { :action => "guestlog", :guest => "blah"}, :class => "action"
+          = link_to 'Random Test', { :action => "index", :random => "true"}, :class => "action"
       - if current_user.admin?
         %td
           = button_to 'Update Stocks', stockservice_path, :class => "action"

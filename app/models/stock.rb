@@ -12,6 +12,19 @@ class Stock < ActiveRecord::Base
   				:format => { :with => SREGEX },
  				:length => { :maximum => 4 }
 
+  def self.randomize(stocks)
+    puts "randomize stocks class: " + stocks.class.to_s + " " + stocks.count.to_s
+    stocks.each do |s|
+      oldval = s["value"].to_f
+      del = Random.new().rand(-5.0...5.0).round(2)
+      if oldval+del < 0.0; del = -del; end
+      newval = (oldval + del).round(2)  # add/sub not perfect, must round
+      s["value"] = newval
+      s["delta"] = del
+    end
+    stocks
+  end
+
   def self.in_db?(symba)  # class method
 #   ab = Stock.where("companysymbol = ?", symba)
     ab = self.where("companysymbol = ?", symba)
