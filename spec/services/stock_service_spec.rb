@@ -91,28 +91,4 @@ describe StockService do
     outp[1]["value"].to_i.should be > 400
   end
 
-  describe "test random variable:" do
-    it "initial random value should be false" do  # no guarantee of order
-      StockService.getrandom().should be false
-    end
-
-    it "setrandom should set true" do
-      StockService.setrandom
-      StockService.getrandom().should be true
-      StockService.unsetrandom  # needed if init random value called after
-    end
-
-    it "unsetrandom should set false" do
-      StockService.unsetrandom
-      StockService.getrandom().should be false
-    end
-
-    it "should parse_response: request('GOOG')" do
-      StockService.unsetrandom
-      outp = StockService.request('GOOG')
-      outp[0]["companysymbol"].should eq 'GOOG'
-      outp[0]["value"].to_i.should be > 600
-    end
-  end
-
 end

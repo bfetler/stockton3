@@ -33,12 +33,6 @@ class StocksController < ApplicationController
 
 puts "sservice params: " + params.inspect
 
-    if params[:update] == "random"
-      StockService.setrandom
-    elsif params[:update]
-      StockService.unsetrandom
-    end
-
     StockService.request
 
     @stocks = "GOOG"

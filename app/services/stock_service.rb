@@ -5,7 +5,8 @@ class StockService
 # define stock symbol list, keep in cache (local variable) or db?
 # keep in class variable in StockService, get with an action?
 
-  def self.fake_request()   # should handle (*stocks)?
+# remove this method  1/15/13
+  def self.fake_request_old()   # should handle (*stocks)?
 puts "fake_request"
     stocklist = Stock.all
     stocks = []
@@ -120,31 +121,11 @@ puts "fetch get_response uri: " + uri_str
     end
   end
 
-  def self.setrandom()
-    @@random = true
-  end
-
-  def self.unsetrandom()
-    @@random = false
-  end
-
-  def self.getrandom()  # for testing only
-    @@random
-  end
-
-# private
-    @@random = false
-#   @@running = true
-
 # public
 # def self.request_values()
   def self.request(*stocks)
-    if @@random
-      StockService.fake_request(*stocks)  # needs to parse?
-    else
-      res = StockService.request_stocks(*stocks)
-      StockService.parse_response(res)
-    end
+    res = StockService.request_stocks(*stocks)
+    StockService.parse_response(res)
   end
 
 end
