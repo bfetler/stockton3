@@ -26,7 +26,7 @@ class StocksController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-#     format.json { render json: @stocks }  # needed for getJSON
+      format.json { render json: @stocks }  # needed for getJSON
     end
   end
 

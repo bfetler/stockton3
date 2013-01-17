@@ -88,7 +88,7 @@ table#stocklist {
 }
 .guest_action {
   @extend .action;
-  background-color: #ddaaff;
+  background-color: $header_bg_color;
 }
 
 .right {
