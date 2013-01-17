@@ -7,6 +7,7 @@ gem 'rails', '3.2.3'
 
 group :development, :test do
   gem 'sqlite3', '1.3.6'
+  gem 'rspec-rails', '2.11.0'
 end
 
 group :production do
@@ -16,7 +17,7 @@ end
 group :test do
   gem 'capybara', '1.1.2'
   gem 'launchy', '2.1.0'
-  gem 'rspec-rails', '2.11.0'
+# gem 'rspec-rails', '2.11.0'
   gem 'factory_girl_rails', '3.5.0'
 # gem 'cucumber-rails'
 # gem 'cucumber-rails-training-wheels'
