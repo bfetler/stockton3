@@ -56,7 +56,7 @@ class Stock < ActiveRecord::Base
 # validations run on both, use separate call
 #   if # companysymbol.valid?
 puts "valid_request self: " + self.inspect
-    if !self.companysymbol.match(SREGEX)
+    unless self.companysymbol.match(SREGEX)
       errors.add("Invalid","stock symbol")
       return false
     end
@@ -65,8 +65,8 @@ puts "company symbol passes regex"
     res = StockService.request_stocks(self.companysymbol)
 #   sash = StockService.parse_response(res)  # don't want to update db here
 #   res.parse ...
-    if !res.is_a?(Net::HTTPSuccess)
-      errors.add("Invalid","stock symbol 2")
+    unless res.is_a?(Net::HTTPSuccess)
+      errors.add("Invalid","stock symbol - http request failed")
       return false
     end
 puts "response HTTPSuccess"
