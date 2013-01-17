@@ -32,8 +32,6 @@ class StocksController < ApplicationController
 
 
 # should only call StockService from background task
-# should only allow if is_admin?
-# user should receive notification after background task runs
   def sservice
 
     puts "sservice params: " + params.inspect

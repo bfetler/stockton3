@@ -46,7 +46,8 @@ describe StocksController do
 puts "[stock] = " + [stock].inspect
       get :index
       assigns(:stocks).should eq([stock])
-    end 
+    end
+    
   end 
 
   describe "guest log" do
