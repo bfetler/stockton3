@@ -72,6 +72,11 @@ puts "saved factory_guest"
 #     current_user.should be(factory_guest)
       expect(response).to redirect_to(stocks_path)
     end
+    
+    it "should set current_user to guest" do
+      get 'guestlog', :guest => "login"
+      current_user.should_not be_nil
+    end
   end
 
 end
