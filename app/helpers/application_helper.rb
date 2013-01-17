@@ -1,7 +1,6 @@
 module ApplicationHelper
 
-  def isadmin?
-    puts "isadmin: " + current_user.admin?.to_s
+  def is_admin?
     if !current_user.admin?
       redirect_to :controller => :stocks, :action => :index
     end
