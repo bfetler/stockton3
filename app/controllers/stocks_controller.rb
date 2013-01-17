@@ -1,6 +1,6 @@
 class StocksController < ApplicationController
   before_filter :authenticate_user!, :except => [:home, :guestlog]
-  before_filter :is_admin?, :only => [:sservice]
+  before_filter :is_admin?, :only => [:sservice]  # get rid of?
 # include ApplicationHelper
 
   # GET /stocks
@@ -31,23 +31,26 @@ class StocksController < ApplicationController
   end
 
 
-  def sservice
 # should only call StockService from background task
 # should only allow if is_admin?
 # user should receive notification after background task runs
+  def sservice
 
-puts "sservice params: " + params.inspect
-
-    StockService.request
-
-    @stocks = "GOOG"
-# output is ignored, main purpose is to call StockService to update stocks
-#   puts "stocks to_json: " + @stocks.to_json
-
-    respond_to do |format|
-      format.html { redirect_to :action => "index" }
-      format.json { puts "sservice json"; render json: @stocks }
+    puts "sservice params: " + params.inspect
+    if current_user.admin?
+      StockService.request
     end
+    @stocks = "GOOG"
+    
+    # output is ignored, main purpose is to call StockService to update stocks
+    #   puts "stocks to_json: " + @stocks.to_json
+    
+    redirect_to stocks_path
+
+    #respond_to do |format|
+    #  format.html { redirect_to :action => "index" }
+    #  format.json { puts "sservice json"; render json: @stocks }
+    #end
   end
 
   def home

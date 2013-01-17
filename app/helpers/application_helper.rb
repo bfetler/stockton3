@@ -1,9 +1,9 @@
 module ApplicationHelper
 
   def is_admin?
-    if !current_user.admin?
-      redirect_to :controller => :stocks, :action => :index
-    end
+    #if !current_user.admin?
+    #  redirect_to :controller => :stocks, :action => :index
+    #end
     current_user.admin?
   end
 
