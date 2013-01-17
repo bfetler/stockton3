@@ -56,37 +56,36 @@ class Stock < ActiveRecord::Base
 # validations run on both, use separate call
 #   if # companysymbol.valid?
 puts "valid_request self: " + self.inspect
-    if self.companysymbol.match(SREGEX)
-puts "company symbol passes regex"
-#     only send http request if matches regex
-      res = StockService.request_stocks(self.companysymbol)
-#     sash = StockService.parse_response(res)
-#     res.parse ...
-      if res.is_a?(Net::HTTPSuccess)
-        value = "0.00"
-        delta = "-"
-        outa = res.body.split("\r\n")
-# puts "outa count " + outa.count.to_s
-        outa.each_with_index do |s, index|
-  puts "s= " + s
-          value = s.split(/[<>]/)[2]
-          delta = s.split(/,/)[3][/[0-9+-\.]+/]
-  puts "value=" + value + " delta=" + delta
-          # set new value, delta in self params
-          self["value"] = value
-          self["delta"] = delta
-        end
-        if value == "0.00" && delta == "-"
-# don't need both conditions to fail?
-          errors.add("Invalid","stock symbol 3")
-          return false
-        end
-      else
-        errors.add("Invalid","stock symbol 2")
-        return false
-      end
-    else
+    if !self.companysymbol.match(SREGEX)
       errors.add("Invalid","stock symbol")
+      return false
+    end
+puts "company symbol passes regex"
+#   only send http request if matches regex
+    res = StockService.request_stocks(self.companysymbol)
+#   sash = StockService.parse_response(res)  # don't want to update db here
+#   res.parse ...
+    if !res.is_a?(Net::HTTPSuccess)
+      errors.add("Invalid","stock symbol 2")
+      return false
+    end
+puts "response HTTPSuccess"
+    sash = Hash.new
+    sash["value"] = "0.00"
+    sash["delta"] = "-"
+    outa = res.body.split("\r\n")
+# puts "outa count " + outa.count.to_s
+    outa.each_with_index do |s, index|
+puts "s= " + s
+      sash = StockService.parse_csv(s)
+      # set new value, delta in self params
+      self["value"] = sash["value"]
+      self["delta"] = sash["delta"]
+      puts "sash value=" + sash["value"] + " delta=" + sash["delta"]
+    end
+    if sash["value"] == "0.00" && sash["delta"] == "-"
+# don't need both conditions to fail?
+      errors.add("Invalid","stock symbol 3")
       return false
     end
     true

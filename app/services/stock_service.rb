@@ -62,6 +62,14 @@ puts "  can't update stock " + sash.inspect
 #   puts res.body.inspect if res.is_a?(Net::HTTPSuccess)
     res  # return response
   end
+  
+  def self.parse_csv(s)
+    sash = Hash.new
+    sash["companysymbol"] = s[/\w+/]
+    sash["value"] = s.split(/[<>]/)[2]
+    sash["delta"] = s.split(/,/)[3][/[0-9+-\.]+/]
+    sash
+  end
 
   def self.parse_response(res)
     puts res.body.inspect if res.is_a?(Net::HTTPSuccess)
@@ -70,16 +78,13 @@ puts "  can't update stock " + sash.inspect
     outp = Hash.new
     outa.each_with_index do |s, index|
       puts "stock: " + s
-      sash = Hash.new
-      sash["companysymbol"] = s[/\w+/]
-      sash["value"] = s.split(/[<>]/)[2]
-      sash["delta"] = s.split(/,/)[3][/[0-9+-\.]+/]
+      sash = self.parse_csv(s)
 
       stock = Stock.where("companysymbol = ?", sash["companysymbol"]).first
 puts "stock db: " + stock.inspect
       if stock.nil?   # true if test env, or if not yet in db
-        stock = Stock.new(sash)
-        stock.save
+        # stock = Stock.new(sash)
+        # stock.save  # if not already in db, how was it created?
       else
         if stock.update_attributes(sash)
 puts "updated stock " + sash.inspect
@@ -94,7 +99,7 @@ puts "can't update stock " + sash.inspect
 #     websockets?  ajax?  backbone?
 # what happens if there are many, many stocks?
     puts outp.inspect
-    outp
+    outp  # only used in specs
 # don't need to return all stocks hash, just true or false
   end
 
