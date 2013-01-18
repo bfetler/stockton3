@@ -55,6 +55,24 @@ describe StockService do
     res.message.should eq("OK")
     res.class.name.should eq("Net::HTTPOK")
   end
+  
+  it "should parse_csv correctly" do
+    body_line = '"GOOG","Google Inc.","Aug 15 - <b>667.54</b>","-1.12 - -0.17%"'
+    sash = StockService.parse_csv(body_line)
+    sash["companysymbol"].should eq("GOOG")
+#   sash["companyname"].should eq("Google Inc.")  # should ignore it
+    sash["companyname"].should be_nil
+    sash["value"].should eq("667.54")
+    sash["delta"].should eq("-1.12")
+  end
+
+  it "should parse_body: request_stocks('GOOG')" do
+    res = StockService.request_stocks('GOOG')
+    res.code.should eq("200")
+    outp = StockService.parse_body(res)
+    outp[0]["companysymbol"].should eq 'GOOG'
+    outp[0]["value"].to_i.should be > 600
+  end
 
   it "should parse_response: request_stocks('GOOG')" do
     res = StockService.request_stocks('GOOG')

@@ -29,6 +29,13 @@ puts "  can't update stock " + sash.inspect
       end
     end
   end
+  
+# public
+# def self.request_values()
+  def self.request(*stocks)
+    res = StockService.request_stocks(*stocks)
+    StockService.parse_response(res)
+  end
 
   def self.request_stocks(*stocks)
 
@@ -70,15 +77,30 @@ puts "  can't update stock " + sash.inspect
     sash["delta"] = s.split(/,/)[3][/[0-9+-\.]+/]
     sash
   end
-
-  def self.parse_response(res)
-    puts res.body.inspect if res.is_a?(Net::HTTPSuccess)
+  
+  # parse response body, output stocks hash
+  def self.parse_body(res)  # rename to self.parse_response(res)
+    puts "** parse_body"
+    puts "res body: " + res.body.inspect if res.is_a?(Net::HTTPSuccess)
     outa = res.body.split("\r\n")
-    puts "stock count: " + outa.count.to_s
     outp = Hash.new
     outa.each_with_index do |s, index|
-      puts "stock: " + s
       sash = self.parse_csv(s)
+      outp[index] = sash
+    end
+# what happens if there are many, many stocks?
+    puts "outp: " + outp.inspect
+    outp
+  end
+
+  def self.parse_response(res)
+    outp = StockService.parse_body(res)
+    
+    puts "** parse_response"
+    puts "  outp class: " + outp.class.to_s + " : " + outp.inspect
+    outp.each do |index, s|
+      puts "stock: " + s.to_s
+      sash = s
 
       stock = Stock.where("companysymbol = ?", sash["companysymbol"]).first
 puts "stock db: " + stock.inspect
@@ -93,23 +115,22 @@ puts "can't update stock " + sash.inspect
         end
       end
 
-      outp[index] = sash
     end
 # just update model here, could send msg to redisplay view?
 #     websockets?  ajax?  backbone?
 # what happens if there are many, many stocks?
-    puts outp.inspect
     outp  # only used in specs
 # don't need to return all stocks hash, just true or false
   end
 
-# copied from a web site somewhere
+private
+# copied from a web site somewhere (rubydoc http)
 # replace with httpparty, rest_client gem?
   def self.fetch_uri(uri_str, limit = 10)
   # You should choose a better exception.
     raise ArgumentError, 'too many HTTP redirects' if limit == 0
 
-puts "fetch get_response uri: " + uri_str
+# puts "fetch get_response uri: " + uri_str
     response = Net::HTTP.get_response(URI(uri_str))
 
     case response
@@ -124,13 +145,6 @@ puts "fetch get_response uri: " + uri_str
     else
       response.value
     end
-  end
-
-# public
-# def self.request_values()
-  def self.request(*stocks)
-    res = StockService.request_stocks(*stocks)
-    StockService.parse_response(res)
   end
 
 end
