@@ -66,10 +66,10 @@ describe StockService do
     sash["delta"].should eq("-1.12")
   end
 
-  it "should parse_body: request_stocks('GOOG')" do
+  it "should parse_response body: request_stocks('GOOG')" do
     res = StockService.request_stocks('GOOG')
     res.code.should eq("200")
-    outp = StockService.parse_body(res)
+    outp = StockService.parse_response(res)
     outp[0]["companysymbol"].should eq 'GOOG'
     outp[0]["value"].to_i.should be > 600
   end

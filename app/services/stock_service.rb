@@ -34,7 +34,8 @@ puts "  can't update stock " + sash.inspect
 # def self.request_values()
   def self.request(*stocks)
     res = StockService.request_stocks(*stocks)
-    StockService.parse_response(res)
+    stocks_hash = StockService.parse_response(res)
+    StockService.update_db(stocks_hash)
   end
 
   def self.request_stocks(*stocks)
@@ -70,43 +71,46 @@ puts "  can't update stock " + sash.inspect
     res  # return response
   end
   
-  def self.parse_csv(s)
+  # stock hash from comma-separated-value string
+  def self.parse_csv(str)
+#   e.g. s = '"GOOG","Google Inc.","Sep 12 - <b>690.88</b>","-1.31 - -0.19%"'
     sash = Hash.new
-    sash["companysymbol"] = s[/\w+/]
-    sash["value"] = s.split(/[<>]/)[2]
-    sash["delta"] = s.split(/,/)[3][/[0-9+-\.]+/]
+#   sash["value"] = "0.00"
+#   sash["delta"] = "-"
+    sash["companysymbol"] = str[/\w+/]
+    sash["value"] = str.split(/[<>]/)[2]
+    sash["delta"] = str.split(/,/)[3][/[0-9+-\.]+/]
     sash
   end
   
   # parse response body, output stocks hash
-  def self.parse_body(res)  # rename to self.parse_response(res)
-    puts "** parse_body"
+  def self.parse_response(res)  # rename to self.parse_response(res)
+    puts "** parse_response"
     puts "res body: " + res.body.inspect if res.is_a?(Net::HTTPSuccess)
-    outa = res.body.split("\r\n")
-    outp = Hash.new
-    outa.each_with_index do |s, index|
+    stocks_array = res.body.split("\r\n")
+    stocks_hash = Hash.new
+    stocks_array.each_with_index do |s, index|
       sash = self.parse_csv(s)
-      outp[index] = sash
+      stocks_hash[index] = sash
     end
 # what happens if there are many, many stocks?
-    puts "outp: " + outp.inspect
-    outp
+    puts "stocks_hash: " + stocks_hash.inspect
+    stocks_hash
   end
 
-  def self.parse_response(res)
-    outp = StockService.parse_body(res)
+  def self.update_db(stocks_hash)
+#    stocks_hash = StockService.parse_response(res)
     
-    puts "** parse_response"
-    puts "  outp class: " + outp.class.to_s + " : " + outp.inspect
-    outp.each do |index, s|
-      puts "stock: " + s.to_s
-      sash = s
+    puts "** update_db"
+    puts "  stocks_hash class: " + stocks_hash.class.to_s + " : " + stocks_hash.inspect
+    stocks_hash.each do |index, sash|
+      puts "stock: " + sash.to_s
 
       stock = Stock.where("companysymbol = ?", sash["companysymbol"]).first
 puts "stock db: " + stock.inspect
       if stock.nil?   # true if test env, or if not yet in db
         # stock = Stock.new(sash)
-        # stock.save  # if not already in db, how was it created?
+        # stock.save  # if not already in db, how was it created? do not want to save
       else
         if stock.update_attributes(sash)
 puts "updated stock " + sash.inspect
@@ -119,8 +123,7 @@ puts "can't update stock " + sash.inspect
 # just update model here, could send msg to redisplay view?
 #     websockets?  ajax?  backbone?
 # what happens if there are many, many stocks?
-    outp  # only used in specs
-# don't need to return all stocks hash, just true or false
+# don't need to return all stocks hash
   end
 
 private
