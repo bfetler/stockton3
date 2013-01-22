@@ -50,6 +50,9 @@ class Stock < ActiveRecord::Base
 #   {"companysymbol"=>"GOOG", "value"=>"690.88", "delta"=>"-1.31"}
 #   {"companysymbol"=>"ZYX", "value"=>"0.00", "delta"=>"-"}
 
+#<Net::HTTPOK 200 OK readbody=true>
+# stocks_hash: {0=>{"companysymbol"=>"DOCTYPE", "value"=>"\n", "delta"=>"."}}
+
   def valid_request?
 #   return true  # avoid internet fail
 # only want to run this on create(), not update()
@@ -57,7 +60,7 @@ class Stock < ActiveRecord::Base
 #   if # companysymbol.valid?
 puts "valid_request self: " + self.inspect
     unless self.companysymbol.match(SREGEX)
-      errors.add("Invalid","stock symbol")
+      errors.add("Invalid","stock symbol syntax")
       return false
     end
 puts "company symbol passes regex"
@@ -76,9 +79,13 @@ puts "response HTTPSuccess"
       self["value"] = sash["value"]
       self["delta"] = sash["delta"]
       puts "sash value=" + sash["value"] + " delta=" + sash["delta"]
-      if sash["value"] == "0.00" && sash["delta"] == "-"
+# check if value, delta are real numbers
+      if sash["value"] == "0.00" ||
+	sash["value"].to_f < 0 ||
+#	!sash["value"].to_f.nil? ||  # check if in [0..9, +, -] ?
+	sash["delta"] == "-"
 # don't need both conditions to fail?
-        errors.add("Invalid","stock symbol 3")
+        errors.add("Invalid","stock symbol")
         return false
       end
     end

@@ -65,8 +65,8 @@ puts "  can't update stock " + sash.inspect
     res = self.fetch_uri(uri_str, 10)
     puts "res: "
     puts res.inspect
-    puts "res body:"
-    puts res.body if res.is_a?(Net::HTTPSuccess)
+#    puts "res body:"
+#    puts res.body if res.is_a?(Net::HTTPSuccess)
 #   puts res.body.inspect if res.is_a?(Net::HTTPSuccess)
     res  # return response
   end
@@ -85,8 +85,8 @@ puts "  can't update stock " + sash.inspect
   
   # parse response body, output stocks hash
   def self.parse_response(res)  # rename to self.parse_response(res)
-    puts "** parse_response"
-    puts "res body: " + res.body.inspect if res.is_a?(Net::HTTPSuccess)
+#    puts "** parse_response"
+#    puts "res body: " + res.body.inspect if res.is_a?(Net::HTTPSuccess)
     stocks_array = res.body.split("\r\n")
     stocks_hash = Hash.new
     stocks_array.each_with_index do |s, index|

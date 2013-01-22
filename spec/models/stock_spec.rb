@@ -121,5 +121,20 @@ describe Stock do
     new_stock.valid_request?.should be_false
     WebMock.disable_net_connect!
   end
+  
+# these are stupid tests, value is replaced by valid_request
+  it "company symbol valid_request should reject non-number value" do
+    WebMock.allow_net_connect!
+    new_stock = Stock.new(@attr.merge(:companysymbol => "VAR", :value => "\n"))
+    new_stock.valid_request?.should be_false
+    WebMock.disable_net_connect!
+  end
+  
+  it "company symbol valid_request should reject negative value" do
+    WebMock.allow_net_connect!
+    new_stock = Stock.new(@attr.merge(:companysymbol => "VAR", :value => "-4.4"))
+    new_stock.valid_request?.should be_false
+    WebMock.disable_net_connect!
+  end
 
 end
