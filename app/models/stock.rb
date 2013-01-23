@@ -11,6 +11,12 @@ class Stock < ActiveRecord::Base
 				:uniqueness => true,
   				:format => { :with => SREGEX },
  				:length => { :maximum => 4 }
+  validates :value,		:numericality => { :greater_than_or_equal_to => 0.0 }
+  validates :delta,		:numericality => true
+#				:numericality => { :greater_than_or_equal_to => -1.0 * :value.to_f }
+
+  validate  :delta_within_range
+# validate  :valid_request?  # do separately, has side effects
 
   def self.randomize(stocks)
     puts "randomize stocks class: " + stocks.class.to_s + " " + stocks.count.to_s
@@ -36,8 +42,14 @@ class Stock < ActiveRecord::Base
     ab = Stock.where("companysymbol = ?", self.companysymbol)
     return ab.any?
   end
-
-# validate :valid_request?
+  
+  def delta_within_range
+    if (value.to_f).is_a?(Float) and (delta.to_f).is_a?(Float)
+      if -1.0 * delta.to_f > value.to_f
+	errors.add("Invalid","delta greater than value")
+      end
+    end
+  end
 
 # StockService.request_stocks() response:
 #   "GOOG","Google Inc.","Sep 12 - <b>690.88</b>","-1.31 - -0.19%"
@@ -79,12 +91,11 @@ puts "response HTTPSuccess"
       self["value"] = sash["value"]
       self["delta"] = sash["delta"]
       puts "sash value=" + sash["value"] + " delta=" + sash["delta"]
-# check if value, delta are real numbers
+# check if value, delta are reasonable
+# full real number check done w/ numericality validation
       if sash["value"] == "0.00" ||
 	sash["value"].to_f < 0 ||
-#	!sash["value"].to_f.nil? ||  # check if in [0..9, +, -] ?
 	sash["delta"] == "-"
-# don't need both conditions to fail?
         errors.add("Invalid","stock symbol")
         return false
       end
