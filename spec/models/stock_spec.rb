@@ -17,19 +17,19 @@ describe Stock do
       new_stock.should be_valid
     end
     
-    it "should require a company name" do
+    it "should require a companyname" do
       new_stock = Stock.new(@attr.merge(:companyname => ""))
       new_stock.should_not be_valid
     end
   end
     
   describe "company symbol" do
-    it "should require a company symbol" do
+    it "should require a companysymbol" do
       new_stock = Stock.new(@attr.merge(:companysymbol => ""))
       new_stock.should_not be_valid
     end
 
-    it "should require a unique company symbol" do
+    it "should require a unique companysymbol" do
       new_stock = Stock.create!(@attr)
       new_stock.should be_valid
       copy_stock = Stock.new(@attr.merge(:companyname => "Ogle"))
@@ -139,49 +139,49 @@ describe Stock do
   end
 
   describe "web request" do
-    it "company symbol valid_request should respond to http request" do
+    it "companysymbol valid_request should respond to http request" do
       WebMock.allow_net_connect!
       new_stock = Stock.new(@attr.merge(:companysymbol => "VAR"))
       new_stock.valid_request?.should be_true
       WebMock.disable_net_connect!
     end
   
-    it "company symbol valid_request should reject invalid http request" do
+    it "companysymbol valid_request should reject invalid http request" do
       WebMock.allow_net_connect!
       new_stock = Stock.new(@attr.merge(:companysymbol => "ZYX"))
       new_stock.valid_request?.should be_false
       WebMock.disable_net_connect!
     end
   
-    it "company symbol valid_request should reject lowercase" do
+    it "companysymbol valid_request should reject lowercase" do
       WebMock.allow_net_connect!
       new_stock = Stock.new(@attr.merge(:companysymbol => "abc"))
       new_stock.valid_request?.should be_false
       WebMock.disable_net_connect!
     end
   
-    it "company symbol valid_request should reject bad characters" do
+    it "companysymbol valid_request should reject bad characters" do
       WebMock.allow_net_connect!
       new_stock = Stock.new(@attr.merge(:companysymbol => "_=7@"))
       new_stock.valid_request?.should be_false
       WebMock.disable_net_connect!
     end
   
-    it "company symbol valid_request should reject more than 4 uppercase chars" do
+    it "companysymbol valid_request should reject more than 4 uppercase chars" do
       WebMock.allow_net_connect!
       new_stock = Stock.new(@attr.merge(:companysymbol => "ASDFG"))
       new_stock.valid_request?.should be_false
       WebMock.disable_net_connect!
     end
   
-    it "company symbol valid_request should reject more than 4 chars" do
+    it "companysymbol valid_request should reject more than 4 chars" do
       WebMock.allow_net_connect!
       new_stock = Stock.new(@attr.merge(:companysymbol => "Abcde"))
       new_stock.valid_request?.should be_false
       WebMock.disable_net_connect!
     end
   
-    it "company symbol valid_request should reject spaces" do
+    it "companysymbol valid_request should reject spaces" do
       WebMock.allow_net_connect!
       new_stock = Stock.new(@attr.merge(:companysymbol => "AB C"))
       new_stock.valid_request?.should be_false
