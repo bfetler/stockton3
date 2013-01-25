@@ -8,6 +8,8 @@ include ApplicationHelper
 describe StocksController do
 # views must exist, but can be empty files (unless render_views)
 
+# render_views
+
 # before(:each) do
 #   @attr = { :companyname      => "Google",
 #             :companysymbol    => "GOOG",
@@ -17,7 +19,15 @@ describe StocksController do
 #   Stock.create!(@attr)
 # end
 
-  describe "GET index" do
+  before(:each) do
+    WebMock.allow_net_connect!
+  end
+  
+  after(:each) do
+    WebMock.disable_net_connect!
+  end
+
+  describe "factory user" do
     before(:each) do
       @request.env["devise.mapping"] = Devise.mappings[:user]
       @attr = { :companyname      => "Google",
@@ -25,6 +35,11 @@ describe StocksController do
                 :value            => "567.8",
                 :delta            => "12.3"
               }
+      
+      @yahoo_attr = { :companyname   => "Yahoo",
+                      :companysymbol => "YHOO"        
+      }
+      
 #     @user = { :email => "fred@flintstone.com",
 #               :password => "abc123"
 #             }
@@ -34,11 +49,121 @@ describe StocksController do
 #     @user.confirm!
 #     sign_in @user
 
-      user = FactoryGirl.create(:user)
-      sign_in user
+      @user = FactoryGirl.create(:user)
+      sign_in @user
 
-      Stock.create!(@attr)
+      @stock = Stock.create!(@attr)
     end
+    
+    describe "user sign in" do
+      it "should have a current_user" do
+        subject.current_user.should_not be_nil
+      end
+    end
+    
+    describe "GET index" do
+      before(:each) do
+#        @user.stocks << @stock
+        subject.current_user.stocks << @stock
+      end
+      
+      it "should be successful" do
+        get :index
+        response.should be_success
+      end
+      
+      it "should render index view" do
+        get :index
+        response.should render_template('index')
+      end
+    end
+    
+    describe "GET new" do
+      it "should render new view" do
+        get :new
+        response.should render_template('new')
+      end
+    end
+
+    describe "POST create" do
+      describe "Google in user stocks:" do
+        before(:each) do
+          subject.current_user.stocks << @stock
+        end
+        
+        it "should not create already existing stock" do
+          lambda do
+            post :create, :stock => @attr
+          end.should_not change(Stock, :count)
+        end
+        
+        it "should redirect already existing stock to index view" do
+          post :create, :stock => @attr
+#         expect(response).to redirect_to(stocks_path)
+          response.should redirect_to(stocks_path)
+        end
+        
+        it "should not add already existing stock to user stocks" do
+          post :create, :stock => @attr
+          subject.current_user.stocks.count.should be(1)
+        end
+        
+        it "should create new stock" do
+          lambda do
+            post :create, :stock => @yahoo_attr
+          end.should change(Stock, :count).by(1)
+        end
+        
+        it "should redirect new stock to index view" do
+          post :create, :stock => @yahoo_attr
+          response.should redirect_to(stocks_path)
+        end
+        
+        it "should add new stock to user stocks" do
+          post :create, :stock => @yahoo_attr
+          subject.current_user.stocks.count.should be(2)
+        end
+        
+        it "should render new template for invalid stock" do
+          post :create, :stock => @attr.merge( :companysymbol => "ZYX" )
+          response.should render_template('new')
+        end
+        
+        it "should not add invalid stock to database" do
+          lambda do
+            post :create, :stock => @attr.merge( :companysymbol => "ZYX" )
+          end.should_not change(Stock, :count)
+        end
+      end
+      
+      describe "Google not in user stocks:" do
+        it "should not create already existing stock" do
+          lambda do
+            post :create, :stock => @attr
+          end.should_not change(Stock, :count)
+        end
+        
+        it "should redirect already existing stock to index view" do
+          post :create, :stock => @attr
+          response.should redirect_to(stocks_path)
+        end
+        
+        it "should create new stock" do
+          lambda do
+            post :create, :stock => @yahoo_attr
+          end.should change(Stock, :count).by(1)
+        end
+        
+        it "should redirect new stock to index view" do
+          post :create, :stock => @yahoo_attr
+          response.should redirect_to(stocks_path)
+        end
+      end
+    end
+    
+  end
+  
+  describe "stub stocks" do
 
     it "stub all stocks to @stocks" do
       stock = stub_model(Stock)
@@ -52,12 +177,13 @@ puts "[stock] = " + [stock].inspect
 
   describe "guest log" do
     before(:each) do
-      @request.env["devise.mapping"] = Devise.mappings[:user]
-      factory_guest = FactoryGirl.create(:user)
-      factory_guest.role = "guest"
-puts "saving factory_guest"
-      factory_guest.save
-puts "saved factory_guest"
+#      @request.env["devise.mapping"] = Devise.mappings[:user]
+#      factory_guest = FactoryGirl.create(:user)
+#      factory_guest.role = "guest"
+#puts "saving factory_guest"
+#      factory_guest.save
+#puts "saved factory_guest"
+      @guest = create_guest_user
     end
 
     it "should get guestlog" do
@@ -72,12 +198,15 @@ puts "saved factory_guest"
 #     session[:guest_login].should be_true
 #     current_user.should be(factory_guest)
       expect(response).to redirect_to(stocks_path)
+#     u = User.where("role = ?", "guest").first
+#     u.should_not be_nil
     end
     
-    it "should set current_user to guest" do
-      get 'guestlog', :guest => "login"
-      current_user.should_not be_nil
-    end
+    #it "should set current_user to guest" do
+    #  get 'guestlog', :guest => "login"
+    #  current_user.should_not be_nil
+    #end
+    
   end
 
 end

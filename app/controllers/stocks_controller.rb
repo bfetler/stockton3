@@ -69,7 +69,10 @@ puts "guestlog params: " + params.to_s
 # {"controller"=>"stocks", "action"=>"guestlog"}
     if params[:guest] == "login"
 #     session[:guest_login] = true
-      sign_in guest_user
+#     sign_in guest_user
+      g = guest_user
+      puts "guestlog user: " + g.inspect
+      sign_in g
     end
     redirect_to stocks_path
   end
