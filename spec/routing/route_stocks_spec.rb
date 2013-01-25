@@ -16,14 +16,6 @@ describe "stocks routes" do
     )
   end
 
-  it "GET /stocks/1 to stocks#show 1" do
-    { :get => "/stocks/1" }.should route_to(
-      :controller => "stocks",
-      :action => "show",
-      :id => "1"
-    )
-  end
-
   it "GET /stocks/new to stocks#new" do
     { :get => "/stocks/new" }.should route_to(
       :controller => "stocks",
@@ -35,22 +27,6 @@ describe "stocks routes" do
     { :post => "/stocks" }.should route_to(
       :controller => "stocks",
       :action => "create"
-    )
-  end
-
-  it "GET /stocks/1/edit to stocks#edit 1" do
-    { :get => "/stocks/1/edit" }.should route_to(
-      :controller => "stocks",
-      :action => "edit",
-      :id => "1"
-    )
-  end
-
-  it "PUT /stocks/1 to stocks#update 1" do
-    { :put => "/stocks/1" }.should route_to(
-      :controller => "stocks",
-      :action => "update",
-      :id => "1"
     )
   end
 

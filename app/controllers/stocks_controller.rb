@@ -77,16 +77,16 @@ puts "guestlog params: " + params.to_s
     redirect_to stocks_path
   end
 
-  # GET /stocks/1
-  # GET /stocks/1.json
-  def show
-    @stock = Stock.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @stock }
-    end
-  end
+  ## GET /stocks/1
+  ## GET /stocks/1.json
+  #def show
+  #  @stock = Stock.find(params[:id])
+  #
+  #  respond_to do |format|
+  #    format.html # show.html.erb
+  #    format.json { render json: @stock }
+  #  end
+  #end
 
   # GET /stocks/new
   # GET /stocks/new.json
@@ -99,10 +99,10 @@ puts "guestlog params: " + params.to_s
     end
   end
 
-  # GET /stocks/1/edit
-  def edit
-    @stock = Stock.find(params[:id])
-  end
+  ## GET /stocks/1/edit
+  #def edit
+  #  @stock = Stock.find(params[:id])
+  #end
 
   # POST /stocks
   # POST /stocks.json
@@ -154,21 +154,21 @@ puts "cannot add stock: " + @stock.companysymbol
     end
   end
 
-  # PUT /stocks/1
-  # PUT /stocks/1.json
-  def update
-    @stock = Stock.find(params[:id])
-
-    respond_to do |format|
-      if @stock.update_attributes(params[:stock])
-        format.html { redirect_to @stock, notice: 'Stock was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: "edit" }
-        format.json { render json: @stock.errors, status: :unprocessable_entity }
-      end
-    end
-  end
+  ## PUT /stocks/1
+  ## PUT /stocks/1.json
+  #def update
+  #  @stock = Stock.find(params[:id])
+  #
+  #  respond_to do |format|
+  #    if @stock.update_attributes(params[:stock])
+  #      format.html { redirect_to @stock, notice: 'Stock was successfully updated.' }
+  #      format.json { head :no_content }
+  #    else
+  #      format.html { render action: "edit" }
+  #      format.json { render json: @stock.errors, status: :unprocessable_entity }
+  #    end
+  #  end
+  #end
   
   # DELETE /stocks/1
   # DELETE /stocks/1.json

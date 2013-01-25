@@ -161,6 +161,23 @@ describe StocksController do
       end
     end
     
+    describe "DELETE stocks" do
+      before(:each) do
+        subject.current_user.stocks << @stock
+      end
+      
+      it "should remove stocks from user" do
+        delete :stocks, :action => :delete, :id => 1
+        subject.current_user.stocks.should be_nil
+      end
+      
+      it "should not change Stocks in database" do
+        lambda do
+          delete :stocks, :id => 1
+        end.should_not change(Stock, :count)
+      end
+    end
+    
   end
   
   describe "stub stocks" do
