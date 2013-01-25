@@ -167,13 +167,13 @@ describe StocksController do
       end
       
       it "should remove stocks from user" do
-        delete :stocks, :action => :delete, :id => 1
-        subject.current_user.stocks.should be_nil
+        delete 'destroy', :id => @stock
+        subject.current_user.stocks.should be_empty
       end
       
       it "should not change Stocks in database" do
         lambda do
-          delete :stocks, :id => 1
+          delete 'destroy', :id => @stock
         end.should_not change(Stock, :count)
       end
     end
