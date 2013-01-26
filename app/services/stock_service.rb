@@ -5,13 +5,22 @@ class StockService
 # define stock symbol list, keep in cache (local variable) or db?
 # keep in class variable in StockService, get with an action?
 
-# remove this method  1/15/13
-  def self.fake_request_old()   # should handle (*stocks)?
-puts "fake_request"
-    stocklist = Stock.all
-    stocks = []
-    stocklist.each { |s| stocks << s.companysymbol }
-    stocklist.each do |stock|
+  def self.fake_request(*stocks)
+    stocks_hash = self.randomize_stocks(*stocks)
+    self.update_db(stocks_hash)
+  end
+
+  def self.randomize_stocks(*stocks)   # should handle (*stocks)?
+# *stocks is an Array of Stock models
+puts "fake_request_stocks"
+    
+    if stocks.empty?
+      stocks = Stock.all
+    end
+    
+    stocks_hash = Hash.new
+    
+    stocks.each_with_index do |stock, index|
 #     puts "stock: " + stock.inspect
 # calculate new random value
       oldval = stock["value"].to_f
@@ -20,25 +29,25 @@ puts "fake_request"
       newval = (oldval + del).round(2)  # add/sub not perfect, must round
       puts "  " + stock["companysymbol"] + " oldval:" + oldval.to_s + " del:" + del.to_s + " newval:" + newval.to_s
       sash = Hash.new
+      sash["companysymbol"] = stock["companysymbol"]
       sash["value"] = newval.to_s
       sash["delta"] = del.to_s
-      if stock.update_attributes(sash)
-puts "  updated stock " + sash.inspect
-      else
-puts "  can't update stock " + sash.inspect
-      end
+      stocks_hash[index] = sash
     end
+
+    stocks_hash  
   end
   
 # public
 # def self.request_values()
   def self.request(*stocks)
-    res = StockService.request_stocks(*stocks)
-    stocks_hash = StockService.parse_response(res)
-    StockService.update_db(stocks_hash)
+    res = self.request_stocks(*stocks)
+    stocks_hash = self.parse_response(res)
+    self.update_db(stocks_hash)
   end
 
   def self.request_stocks(*stocks)
+# *stocks is an array of companysymbol
 
 # for background process, just get list of all stocks
 # use arg *stocks to test if a stock is valid?
@@ -59,8 +68,7 @@ puts "  can't update stock " + sash.inspect
     uri_str = 'http://finance.yahoo.com/d/quotes.csv?s=' + sstr + '&f=snlc'
 # max length of uri?  2048 in IE, longer in others.  use POST not GET?
 #   47 chars + 5 * stocks (5 = 4 char + "+"); (2047-47)/5 = 400 stocks max
-# if doing in a loop, could start a thread for each rather than
-#   wait for response --jonah c5
+# using a loop, could start a thread for each rather than wait for response
 
     res = self.fetch_uri(uri_str, 10)
     puts "res: "

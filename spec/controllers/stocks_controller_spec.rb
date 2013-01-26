@@ -179,22 +179,10 @@ describe StocksController do
     end
     
   end
-  
-  describe "stub stocks" do
 
-    it "stub all stocks to @stocks" do
-      stock = stub_model(Stock)
-      Stock.stub(:all) { [stock] }
-puts "[stock] = " + [stock].inspect
-      get :index
-      assigns(:stocks).should eq([stock])
-    end
-    
-  end 
-
-  describe "guest log" do
+  describe "guest log:" do
     before(:each) do
-#      @request.env["devise.mapping"] = Devise.mappings[:user]
+      @request.env["devise.mapping"] = Devise.mappings[:user]
 #      factory_guest = FactoryGirl.create(:user)
 #      factory_guest.role = "guest"
 #puts "saving factory_guest"
@@ -213,7 +201,7 @@ puts "[stock] = " + [stock].inspect
       get 'guestlog', :guest => "login"
 #     need to create guest_user
 #     session[:guest_login].should be_true
-#     current_user.should be(factory_guest)
+#     subject.current_user.should be(factory_guest)
       expect(response).to redirect_to(stocks_path)
 #     u = User.where("role = ?", "guest").first
 #     u.should_not be_nil
@@ -221,7 +209,7 @@ puts "[stock] = " + [stock].inspect
     
     #it "should set current_user to guest" do
     #  get 'guestlog', :guest => "login"
-    #  current_user.should_not be_nil
+    #  subject.current_user.should_not be_nil
     #end
     
   end
