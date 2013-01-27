@@ -25,7 +25,7 @@ describe StockService do
 
   describe "should create stocka:" do
     it "with correct companyname" do
-      @stocka.companyname.should eq("GooG A")
+      @stocka.companyname.should eq("GooG A")  # no guarantee if other specs run first
     end
     it "with correct companysymbol" do
       @stocka.companysymbol.should eq("GGA")
