@@ -1,7 +1,7 @@
 Stockton::Application.routes.draw do
   devise_for :users
 
-  resources :stocks
+  resources :stocks, :only => [:index, :new, :create, :destroy]
 
   match '/stockservice' => 'stocks#sservice', :via => :post
   match '/home' => 'stocks#home', :as => 'home'

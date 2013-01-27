@@ -46,16 +46,16 @@ describe StockService do
     end
     
     it "value less than old plus delta" do
-      @stock1.value.to_f.should be < 105.0
+      @stock1.value.to_f.should be <= 105.0
     end
     it "value more than old minus delta" do
-      @stock1.value.to_f.should be >  95.0
+      @stock1.value.to_f.should be >=  95.0
     end
     it "delta less than +5" do
-      @stock1.delta.to_f.should be <   5.0
+      @stock1.delta.to_f.should be <=   5.0
     end
     it "delta more than -5" do
-      @stock1.delta.to_f.should be >  -5.0
+      @stock1.delta.to_f.should be >=  -5.0
     end
   end
 
@@ -77,33 +77,31 @@ describe StockService do
     stocks = 3.times.each.map { FactoryGirl.create(:stock) }
     stocks_hash = StockService.randomize_stocks()
     stocks_hash.each do |index, s|
-      s["delta"].to_f.should be <   5.0
-      s["delta"].to_f.should be >  -5.0
+      s["delta"].to_f.should be <=   5.0
+      s["delta"].to_f.should be >=  -5.0
     end
     3.times.each { Stock.last.destroy }
   end
   
   it "should randomize 3 stocks" do
     stocks = 3.times.each.map { FactoryGirl.create(:stock) }
-    puts "stocks: " + stocks.class.to_s + " " + stocks.inspect # Array
-    stockall = Stock.all
-    puts "Stock.all: " + stockall.class.to_s + " " + stockall.inspect # Array
-    stocks_hash = StockService.randomize_stocks(stockall)
+    stocks_hash = StockService.randomize_stocks(*stocks)  # pass Array as variable number of args
+    stocks_hash.count.should eq(3)
     stocks_hash.each do |index, s|
-      s["delta"].to_f.should be <   5.0
-      s["delta"].to_f.should be >  -5.0
+      s["delta"].to_f.should be <=   5.0
+      s["delta"].to_f.should be >=  -5.0
     end
     3.times.each { Stock.last.destroy }
   end
-
+  
   it "should save all randomized stocks in db" do
     stocks = 3.times.each.map { FactoryGirl.create(:stock) }
     puts "stocks: " + stocks.class.to_s + " " + stocks.inspect # Array
     StockService.fake_request()
 # handle this in controller spec w/ params[:random] ?
     Stock.all.each do |s|
-      s.delta.to_f.should be <   5.0
-      s.delta.to_f.should be >  -5.0
+      s.delta.to_f.should be <=   5.0
+      s.delta.to_f.should be >=  -5.0
     end
     3.times.each { Stock.last.destroy }
   end

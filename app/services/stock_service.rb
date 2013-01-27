@@ -4,39 +4,6 @@ class StockService
 
 # define stock symbol list, keep in cache (local variable) or db?
 # keep in class variable in StockService, get with an action?
-
-  def self.fake_request(*stocks)
-    stocks_hash = self.randomize_stocks(*stocks)
-    self.update_db(stocks_hash)
-  end
-
-  def self.randomize_stocks(*stocks)   # should handle (*stocks)?
-# *stocks is an Array of Stock models
-puts "fake_request_stocks"
-    
-    if stocks.empty?
-      stocks = Stock.all
-    end
-    
-    stocks_hash = Hash.new
-    
-    stocks.each_with_index do |stock, index|
-#     puts "stock: " + stock.inspect
-# calculate new random value
-      oldval = stock["value"].to_f
-      del = Random.new().rand(-5.0...5.0).round(2)
-      if oldval+del < 0.0; del = -del; end
-      newval = (oldval + del).round(2)  # add/sub not perfect, must round
-      puts "  " + stock["companysymbol"] + " oldval:" + oldval.to_s + " del:" + del.to_s + " newval:" + newval.to_s
-      sash = Hash.new
-      sash["companysymbol"] = stock["companysymbol"]
-      sash["value"] = newval.to_s
-      sash["delta"] = del.to_s
-      stocks_hash[index] = sash
-    end
-
-    stocks_hash  
-  end
   
 # public
 # def self.request_values()
@@ -132,6 +99,40 @@ puts "can't update stock " + sash.inspect
 #     websockets?  ajax?  backbone?
 # what happens if there are many, many stocks?
 # don't need to return all stocks hash
+  end
+
+  def self.fake_request(*stocks)
+    stocks_hash = self.randomize_stocks(*stocks)
+    self.update_db(stocks_hash)
+  end
+
+  def self.randomize_stocks(*stocks)   # should handle (*stocks)?
+# *stocks is an Array of Stock models
+puts "randomize_stocks: stocks class " + stocks.class.to_s
+    
+    if stocks.empty?
+      stocks = Stock.all
+    end
+    
+    stocks_hash = Hash.new
+
+puts "random: " + stocks.class.to_s + " " + stocks.inspect    
+    stocks.each_with_index do |stock, index|
+#     puts "stock: " + stock.inspect
+# calculate new random value
+      oldval = stock["value"].to_f
+      del = Random.new().rand(-5.0...5.0).round(2)
+      if oldval+del < 0.0; del = -del; end
+      newval = (oldval + del).round(2)  # add/sub not perfect, must round
+      puts "  " + stock["companysymbol"] + " oldval:" + oldval.to_s + " del:" + del.to_s + " newval:" + newval.to_s
+      sash = Hash.new
+      sash["companysymbol"] = stock["companysymbol"]
+      sash["value"] = newval.to_s
+      sash["delta"] = del.to_s
+      stocks_hash[index] = sash
+    end
+
+    stocks_hash  
   end
 
 private
