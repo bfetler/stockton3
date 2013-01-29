@@ -1,18 +1,27 @@
-desc "run stock service"
+namespace :stocks do
+  
+  task :default => [:update]
 
-# task :default => [:execrun]
+  desc "update stocks"  
+  task :update => [:environment] do |t, args|
+    puts "Stock count: #{Stock.count}"
+    StockService.request
+  end
+  
+  desc "randomize stocks"  
+  task :random => [:environment] do |t, args|
+    Rake::Task['stocks:yayy'].invoke
+    puts "Stock count: #{Stock.count}"
+    StockService.fake_request
+  end
 
-task :sservice => [:environment] do |t, args|
-  puts "Stock count: #{Stock.count}"
-# StockService.fake_request
-  StockService.request
-end
-
-task :yayy do
-# ruby "StockService.fake_request"
-  puts "yayy!!"
-end
-
-file "execrun" do
-  sh "../../script/run_service.sh"
+  desc "yayy"  
+  task :yayy do
+    yays = ENV['YAYS'] || 2
+    puts "yayy!! " * yays
+  end
+  
+  file "execrun" do
+    sh "../../script/run_service.sh"
+  end
 end
