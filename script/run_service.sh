@@ -19,7 +19,7 @@ cd /media/BLinux/ub2/rex/eg323/stockton/
 rake_cmd=/home/ub2/.rvm/gems/ruby-1.9.3-p125/bin/rake 
 echo "$rake_cmd" >> $tmpfile
 echo "start rake task" >> $tmpfile
-$rake_cmd RAILS_ENV=development stocks:update >> $tmpfile 2>&1
-# $rake_cmd RAILS_ENV=development stocks:random >> $tmpfile 2>&1
+# $rake_cmd RAILS_ENV=development stocks:update >> $tmpfile 2>&1
+$rake_cmd RAILS_ENV=development stocks:random >> $tmpfile 2>&1
 
 echo "DONE" >> $tmpfile

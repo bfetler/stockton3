@@ -39,7 +39,6 @@ describe StockService do
   end
 
   describe "should randomize stocka:" do
-# handle this in controller spec w/ params[:random] ?
     before(:each) do
       StockService.fake_request()
       @stock1 = Stock.first
@@ -96,9 +95,7 @@ describe StockService do
   
   it "should save all randomized stocks in db" do
     stocks = 3.times.each.map { FactoryGirl.create(:stock) }
-    puts "stocks: " + stocks.class.to_s + " " + stocks.inspect # Array
     StockService.fake_request()
-# handle this in controller spec w/ params[:random] ?
     Stock.all.each do |s|
       s.delta.to_f.should be <=   5.0
       s.delta.to_f.should be >=  -5.0

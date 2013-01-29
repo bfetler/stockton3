@@ -10,15 +10,6 @@ describe StocksController do
 
 # render_views
 
-# before(:each) do
-#   @attr = { :companyname      => "Google",
-#             :companysymbol    => "GOOG",
-#             :value            => "567.8",
-#             :delta            => "12.3"
-#           }
-#   Stock.create!(@attr)
-# end
-
   before(:each) do
     WebMock.allow_net_connect!
   end
