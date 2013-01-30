@@ -30,16 +30,14 @@ class Stock < ActiveRecord::Base
     stocks
   end
 
-  def self.in_db?(symba)  # class method
-#   ab = Stock.where("companysymbol = ?", symba)
-    ab = self.where("companysymbol = ?", symba)
-    return ab.any?
-  end
+#  def self.in_db?(symba)  # class method
+##   ab = Stock.where("companysymbol = ?", symba)
+#    ab = self.where("companysymbol = ?", symba)
+#    return ab.any?
+#  end
 
-  def is_in_db?    # instance method
-    puts "is_in_db companysymbol: " + self.companysymbol
-    ab = Stock.where("companysymbol = ?", self.companysymbol)
-    return ab.any?
+  def find_in_db    # instance method
+    Stock.where("companysymbol = ?", self.companysymbol)
   end
   
   def delta_within_range

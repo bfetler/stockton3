@@ -6,6 +6,13 @@ module ApplicationHelper
     #end
     current_user.admin?
   end
+  
+  def is_in_user_stocklist?(stock)
+    in_stocklist = current_user.stocks.select do |s|
+      s.companysymbol == stock.companysymbol
+    end
+    in_stocklist.any?
+  end
 
   def guest_user
     guest = User.where("role = ?", "guest").first

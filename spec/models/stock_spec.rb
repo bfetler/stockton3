@@ -137,6 +137,31 @@ describe Stock do
       end
     end
   end
+  
+  describe "helpers" do
+    describe "find in db:" do
+      before(:each) do
+        @stock = Stock.new(@attr)
+      end
+      
+      it "should not find new stock in db" do
+        stock_from_db = @stock.find_in_db
+        stock_from_db.should be_empty
+      end
+      
+      it "should find non-empty array from db" do
+        @stock.save!
+        stock_from_db = @stock.find_in_db
+        stock_from_db.should_not be_empty
+      end
+      
+      it "should find saved stock in db" do
+        @stock.save!
+        stock_from_db = @stock.find_in_db
+        stock_from_db.first.should eq(@stock)
+      end
+    end
+  end
 
   describe "web request" do
     it "companysymbol valid_request should respond to http request" do

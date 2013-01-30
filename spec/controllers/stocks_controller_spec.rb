@@ -75,6 +75,14 @@ describe StocksController do
         response.should render_template('new')
       end
     end
+    
+    describe "helper" do
+      it "should not find new stock" do
+        stock = Stock.new(@attr)
+        in_list = is_in_user_stocklist?(stock)
+        in_list.should be_false
+      end
+    end
 
     describe "POST create" do
       describe "Google in user stocks:" do
@@ -138,6 +146,11 @@ describe StocksController do
           post :create, :stock => @attr
           response.should redirect_to(stocks_path)
         end
+        
+        it "should add stock to current_user" do
+            post :create, :stock => @attr
+            subject.current_user.stocks.count.should be(1)
+          end
         
         it "should create new stock" do
           lambda do

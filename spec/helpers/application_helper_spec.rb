@@ -34,4 +34,30 @@ describe ApplicationHelper do
     end
   end
   
+  #describe "user stocklist" do
+  #  before(:each) do
+  #    @request.env["devise.mapping"] = Devise.mappings[:user]
+  #    @attr = { :companyname      => "Google",
+  #              :companysymbol    => "GOOG",
+  #              :value            => "567.8",
+  #              :delta            => "12.3"
+  #            }
+  #    
+  #    @yahoo_attr = { :companyname   => "Yahoo",
+  #                    :companysymbol => "YHOO"        
+  #    }
+  #    
+  #    @user = FactoryGirl.create(:user)
+  #    sign_in @user
+  #    # is_in_user_stocklist?(stock)
+  #  end
+  #  
+  #  it "should not find new stock in current_user" do
+  #    stock = Stock.new(@attr)
+  #    in_list = is_in_user_stocklist?(stock)
+  #    in_list.should be_false
+  #  end
+  #  
+  #end
+  
 end
