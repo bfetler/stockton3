@@ -170,6 +170,45 @@ describe StocksController do
     end
     
   end
+  
+  describe "admin user:" do
+    before(:each) do
+      @request.env["devise.mapping"] = Devise.mappings[:user]
+      @attr = { :companyname      => "Google",
+                :companysymbol    => "GOOG",
+                :value            => "567.8",
+                :delta            => "12.3"
+              }
+
+#     @admin = FactoryGirl.create(:user)
+      
+      admin = { :email => "admin@stockton.com",
+                :password => "abc123"
+              }
+      @admin = User.create!(admin)  # works
+
+#      @admin.toggle!(admin) # fails
+      @admin.update_attribute :admin, true
+      sign_in @admin
+
+      @stock = Stock.create!(@attr)
+    end
+    
+    it "user sign in should have current_user" do
+      subject.current_user.should_not be_nil
+    end
+    
+    it "user is admin" do
+#     @admin.admin?.should be_true
+      @admin.should be_admin
+    end
+    
+    it "delete stock should remove from db" do
+      lambda do
+        delete 'destroy', :id => @stock
+      end.should change(Stock, :count).by(-1)
+    end
+  end
 
   describe "guest log:" do
     before(:each) do
