@@ -101,11 +101,11 @@ puts "guestlog params: " + params.to_s
         format.html { redirect_to :action => "index" }
         format.json { render json: @stock, status: :created, location: @stock }
       elsif stock_from_db.any?
-        current_user.stocks << stock_from_db
+        current_user.stocks << stock_from_db  unless current_user.admin?
         format.html { redirect_to :action => "index" }
         format.json { render json: @stock, status: :created, location: @stock }
       elsif @stock.valid_request? and @stock.save
-        current_user.stocks << @stock
+        current_user.stocks << @stock  unless current_user.admin?
         format.html { redirect_to :action => "index" }
         format.json { render json: @stock, status: :created, location: @stock }
       else

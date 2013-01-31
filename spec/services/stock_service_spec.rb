@@ -31,8 +31,8 @@ describe StockService do
       @sash["companysymbol"].should eq("GOOG")
     end
     it "companyname is nil" do
-      @sash["companyname"].should be_nil
-#     @sash["companyname"].should eq("Google Inc.")  # should ignore it
+      # @sash["companyname"].should be_nil
+      @sash["companyname"].should eq("Google Inc.")  # should ignore it
     end
     it "stock value is 667.54" do
       @sash["value"].should eq("667.54")

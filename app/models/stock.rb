@@ -37,7 +37,7 @@ class Stock < ActiveRecord::Base
 #  end
 
   def find_in_db    # instance method
-    Stock.where("companysymbol = ?", self.companysymbol)
+    Stock.where("companysymbol = ?", self.companysymbol)  #.first
   end
   
   def delta_within_range
@@ -76,6 +76,7 @@ class Stock < ActiveRecord::Base
     stocks_hash.each do |index, sash|
       self["value"] = sash["value"]    # set new value, delta in self params
       self["delta"] = sash["delta"]
+      self["companyname"] = sash["companyname"]
       
 # check if value, delta are reasonable (more checks in numericality validation)
       if sash["value"] == "0.00" ||

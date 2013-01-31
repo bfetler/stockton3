@@ -40,6 +40,8 @@ class StockService
 #   sash["value"] = "0.00"
 #   sash["delta"] = "-"
     sash["companysymbol"] = str[/\w+/]
+#   sash["companyname"] = str.split(/[,"]/)[4]
+    sash["companyname"] = str.split(/,/)[1][/[^"]+/]
     sash["value"] = str.split(/[<>]/)[2]
     sash["delta"] = str.split(/,/)[3][/[0-9+-\.]+/]
     sash
@@ -59,6 +61,7 @@ class StockService
       sash = self.parse_csv(s)
       stocks_hash[index] = sash
     end
+    # puts "parse_response stocks_hash: " + stocks_hash.inspect
     stocks_hash
   end
 

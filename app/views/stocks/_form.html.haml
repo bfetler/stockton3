@@ -8,10 +8,7 @@
 
   %table.action_panel
     %tr
-      %td= f.label "Company Name"
-      %td= f.text_field :companyname
-    %tr
-      %td= f.label "Stock Symbol"
+      %td= f.label "Company Stock Symbol"
       %td= f.text_field :companysymbol
   .action_panel
     = f.submit 'Add New Stock', :class => "action"
