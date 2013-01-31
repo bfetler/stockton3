@@ -93,44 +93,22 @@ puts "guestlog params: " + params.to_s
 
     @stock = Stock.new(params[:stock])
 
-#   Stock in current_user.stocks ?
-#   Stock.where(stocksymbol = ?)
-
-# if Stock.new fails, these will both be empty, which is fine
-    #in_stocklist = current_user.stocks.select do |s|
-    #  s.companysymbol == @stock.companysymbol
-    #end
-#    in_stocklist = @stock.is_in_stocklist(current_user)
-    is_in_user_stocklist = is_in_user_stocklist?(@stock)
-#   could use current_user.stocks.where(companysymbol ...)
-#   in_db = Stock.where("companysymbol = ?", @stock.companysymbol)
+    # stock_from_db = Stock.where("companysymbol = ?", @stock.companysymbol)
     stock_from_db = @stock.find_in_db
-    puts "in_stocklist: " + is_in_user_stocklist.inspect + "; from_db: " + stock_from_db.inspect
     
-#    puts "already in stocklist? " + in_stocklist.any?.to_s
-#    puts "already in db? " + in_db.any?.to_s
-
     respond_to do |format|
-      if is_in_user_stocklist
-  puts "stock already in current user list: " + @stock.companysymbol
+      if is_in_user_stocklist?(@stock)
         format.html { redirect_to :action => "index" }
         format.json { render json: @stock, status: :created, location: @stock }
-#     elsif (in_db.any?) || (@stock.valid_request? and @stock.save)
       elsif stock_from_db.any?
-puts "adding stock in db to current user list: " + @stock.companysymbol
-puts "stock in db: " + stock_from_db.to_s
         current_user.stocks << stock_from_db
         format.html { redirect_to :action => "index" }
         format.json { render json: @stock, status: :created, location: @stock }
       elsif @stock.valid_request? and @stock.save
-#     if @stock.valid_request? and @stock.save
-puts "save stock, add to current user list: " + @stock.companysymbol
-        current_user.stocks << @stock  # turn this line into a method?
-#       format.html { redirect_to @stock, notice: 'Stock was successfully created.' }
+        current_user.stocks << @stock
         format.html { redirect_to :action => "index" }
         format.json { render json: @stock, status: :created, location: @stock }
       else
-puts "cannot add stock: " + @stock.companysymbol
         format.html { render action: "new" }
         format.json { render json: @stock.errors, status: :unprocessable_entity }
       end

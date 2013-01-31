@@ -76,11 +76,29 @@ describe StocksController do
       end
     end
     
-    describe "helper" do
-      it "should not find new stock" do
-        stock = Stock.new(@attr)
-        in_list = is_in_user_stocklist?(stock)
-        in_list.should be_false
+    describe "helper" do  # try integration test?
+      describe "is_in_user_stocklist?" do
+        it "should not find nil stock" do
+          self.stub!(:current_user).and_return(@user)
+          in_list = is_in_user_stocklist?(nil)
+          in_list.should be_false
+        end
+        
+        it "should not find new stock" do
+          stock = Stock.new(@attr)
+          # controller.stub!(:current_user).and_return(@user)
+          self.stub!(:current_user).and_return(@user)
+          in_list = is_in_user_stocklist?(stock)
+          in_list.should be_false
+        end
+        
+        it "should find new stock" do
+          stock = Stock.new(@attr)
+          @user.stocks << @stock
+          self.stub!(:current_user).and_return(@user)
+          in_list = is_in_user_stocklist?(stock)
+          in_list.should be_true
+        end
       end
     end
 
