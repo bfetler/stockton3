@@ -6,31 +6,30 @@
       %td
         %table#stocklist
           %tr
+            %th Stock
             %th Company
-            %th Symbol
             %th Value
             %th Change
             %th
 
           - @stocks.each do |stock|
             %tr
-              %td= stock.companyname
               %td.companysymbol= stock.companysymbol
+              %td.companyname= stock.companyname
               %td.value= stock.value
               %td.delta= stock.delta
               - if current_user.admin?
                 %td= link_to 'Delete', stock, :confirm => 'Are you sure?', :method => :delete
 
-  %table.action_panel
-    %tr
-      %td
-        = button_to 'Add a Stock', new_stock_path, :class => "action", :method => :get
-      - if !current_user.admin?
-        %td
-          = button_to 'Clear My Stocks', @stocks.last, :method => :delete, :class => "action"
-      - if current_user.guest? || current_user.admin?
-        %td
-          = link_to 'Random Test', { :controller => "stocks", :action => "index", :random => "true" }, :class => "action"
-      - if current_user.admin?
-        %td
-          = button_to 'Update Stocks', stockservice_path, :class => "action"
+  %div.action_panel
+    %span.left
+      = button_to 'Add a Stock', new_stock_path, :class => "action", :method => :get
+    - if !current_user.admin?
+      %span.left
+        = button_to 'Clear My Stocks', @stocks.last, :method => :delete, :class => "action"
+    -# if current_user.guest? || current_user.admin?
+      %span.left
+        = link_to 'Random Test', { :controller => "stocks", :action => "index", :random => "true" }, :class => "action"
+    - if current_user.admin?
+      %span.left
+        = button_to 'Update Stocks', stockservice_path, :class => "action"

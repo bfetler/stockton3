@@ -54,10 +54,12 @@ table.footer {
 }
 .stock_panel {
   @extend .round;
-  margin-top: $dpad*0.5;
-  margin-bottom: $dpad*0.5;
-  margin-left: $dpad;
-  margin-right: $dpad;
+  margin: {
+    top: $dpad*0.5;
+    bottom: $dpad*0.5;
+    left: $dpad;
+    right: $dpad;
+  }
   padding: $dpad*0.5;
   background-color: white;
 }
@@ -66,10 +68,9 @@ table#stocklist {
   th, td {
     padding-right: $dpad*0.5;
   }
-//td.companysymbol, td.value, td.delta {
-//  background-color: #ddf;
-//  padding-right: $dpad*0.5;
-//}
+  td.companyname {
+    font-size: 0.8em;
+  }
   tbody tr:nth-child(even) td, tbody tr.even td {
     background-color: #ddf;
   }
@@ -77,8 +78,12 @@ table#stocklist {
 .action_panel {
   @extend .stock_panel;
   background-color: $main_bg_color;
-  margin-left: $dpad;
-  padding: 0px;
+  padding: {
+    top: 0px;
+    bottom: $dpad;
+    left: 0px;
+    right: 0px;
+  }
 }
 .action {
   @extend .round;
@@ -91,6 +96,9 @@ table#stocklist {
   background-color: $header_bg_color;
 }
 
+.left {
+  float: left;
+}
 .right {
   float: right;
 }
