@@ -18,7 +18,7 @@ describe StocksController do
     WebMock.disable_net_connect!
   end
 
-  describe "factory user" do
+  describe "factory user:" do
     before(:each) do
       @request.env["devise.mapping"] = Devise.mappings[:user]
       @attr = { :companyname      => "Google",
@@ -166,9 +166,9 @@ describe StocksController do
         end
         
         it "should add stock to current_user" do
-            post :create, :stock => @attr
-            subject.current_user.stocks.count.should be(1)
-          end
+          post :create, :stock => @attr
+          subject.current_user.stocks.count.should be(1)
+        end
         
         it "should create new stock" do
           lambda do
@@ -210,6 +210,10 @@ describe StocksController do
                 :value            => "567.8",
                 :delta            => "12.3"
               }
+      
+      @yahoo_attr = { :companyname   => "Yahoo",
+                      :companysymbol => "YHOO"        
+      }
 
 #     @admin = FactoryGirl.create(:user)
       
@@ -232,6 +236,16 @@ describe StocksController do
     it "user is admin" do
 #     @admin.admin?.should be_true
       @admin.should be_admin
+    end
+    
+    it "should not add existing stock to current_user" do
+      post :create, :stock => @attr
+      subject.current_user.stocks.count.should be(0)
+    end
+    
+    it "should not add new stock to current_user" do
+      post :create, :stock => @yahoo_attr
+      subject.current_user.stocks.count.should be(0)
     end
     
     it "delete stock should remove from db" do
