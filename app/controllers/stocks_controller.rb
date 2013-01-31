@@ -1,28 +1,15 @@
 class StocksController < ApplicationController
   before_filter :authenticate_user!, :except => [:home, :guestlog]
-  before_filter :is_admin?, :only => [:sservice]  # get rid of?
-# include ApplicationHelper
+  before_filter :is_admin?, :only => [:sservice]
 
   # GET /stocks
   # GET /stocks.json
   def index
-    puts "current_user: " + current_user.email
-    puts "params: " + params.to_s
-#   puts current_user.methods.sort.join(", ")
-
-#   @stocks = Stock.all
-# @stocks = Stock.where(companysymbol: params["symbols"])
     if current_user.admin?
       @stocks = Stock.all
     else
       @stocks = current_user.stocks
     end
-# check_random_flag()
-    if params[:random] == "true"  # gets appended to URL, not optimal
-      puts "stocks class: " + @stocks.class.to_s + " " + @stocks.count.to_s
-      @stocks = Stock.randomize(@stocks)
-    end
-    puts "session: " + session.to_s
 
     respond_to do |format|
       format.html # index.html.erb
@@ -31,24 +18,13 @@ class StocksController < ApplicationController
   end
 
 
-# should only call StockService from background task
+# StockService is usually called from background task,
+#   but admin may also run update
   def sservice
-
-    puts "sservice params: " + params.inspect
     if current_user.admin?
       StockService.request
     end
-    @stocks = "GOOG"
-    
-    # output is ignored, main purpose is to call StockService to update stocks
-    #   puts "stocks to_json: " + @stocks.to_json
-    
     redirect_to stocks_path
-
-    #respond_to do |format|
-    #  format.html { redirect_to :action => "index" }
-    #  format.json { puts "sservice json"; render json: @stocks }
-    #end
   end
 
   def home
@@ -60,15 +36,8 @@ class StocksController < ApplicationController
   end
 
   def guestlog
-#   session[:guest_login] = nil
-puts "guestlog params: " + params.to_s  
-# {"controller"=>"stocks", "action"=>"guestlog"}
     if params[:guest] == "login"
-#     session[:guest_login] = true
-#     sign_in guest_user
-      g = guest_user
-      puts "guestlog user: " + g.inspect
-      sign_in g
+      sign_in guest_user
     end
     redirect_to stocks_path
   end

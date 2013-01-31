@@ -6,7 +6,7 @@ require 'spec_helper'
 # just delete this spec?  1/15/13
 # originally this was for testing fake_request() and random values
 
-describe StockService do
+describe "Randomize StockService" do
   before(:all) do
     @stocka = FactoryGirl.create(:stock)
   end

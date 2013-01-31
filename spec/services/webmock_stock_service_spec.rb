@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'webmock/rspec'  # needed for stub_request()
 require 'net/http'
 
-describe "webmock specs" do
+describe "WebMock StockService" do
 # before(:each) do
 #   WebMock.disable_net_connect!
 # end
