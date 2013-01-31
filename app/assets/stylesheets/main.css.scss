@@ -32,14 +32,13 @@ h4.header {
   padding-top: 4px;
   padding-right: $dpad;
 }
-table.footer {
-  td {
-    width: 35%;
-    padding-left: $dpad;
-    padding-right: $dpad;
-  }
+.footer {
+  padding-left: $dpad;
+  padding-right: $dpad;
 }
 .footer_text {
+  @extend .footer;
+  padding-top: $dpad*0.1;
   font: {
     family: serif;
     size: 0.8em;
