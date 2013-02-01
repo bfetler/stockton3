@@ -23,38 +23,25 @@ describe "Randomize StockService" do
 # let(:stocka) { FactoryGirl.build(:stock) }
 # let(:stocks) { 3.times.each.map { FactoryGirl.create(:stock) } }
 
-  describe "should create stocka:" do
-    it "with correct companyname" do
-      @stocka.companyname.should eq("GooG A")  # no guarantee if other specs run first
-    end
-    it "with correct companysymbol" do
-      @stocka.companysymbol.should eq("GGA")
-    end
-    it "with correct value" do
-      @stocka.value.should eq("100")
-    end
-    it "with correct delta" do
-      @stocka.delta.should eq("10")
-    end
-  end
-
-  describe "should randomize stocka:" do
+  describe "should randomize stock:" do
     before(:each) do
+      @old_stock = Stock.first
       StockService.fake_request()
-      @stock1 = Stock.first
+      @new_stock = Stock.first
+      @delta_max = 5.0
     end
     
     it "value less than old plus delta" do
-      @stock1.value.to_f.should be <= 105.0
+      @new_stock.value.to_f.should be <= @old_stock.value.to_f + @delta_max
     end
     it "value more than old minus delta" do
-      @stock1.value.to_f.should be >=  95.0
+      @new_stock.value.to_f.should be >= @old_stock.value.to_f - @delta_max
     end
-    it "delta less than +5" do
-      @stock1.delta.to_f.should be <=   5.0
+    it "delta less than +max" do
+      @new_stock.delta.to_f.should be <=    @delta_max
     end
-    it "delta more than -5" do
-      @stock1.delta.to_f.should be >=  -5.0
+    it "delta more than -max" do
+      @new_stock.delta.to_f.should be >=  - @delta_max
     end
   end
 
