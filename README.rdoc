@@ -1,40 +1,41 @@
 == Stockton: A Rails app to track stocks
 
-This is a demo rails app that tracks stock quotes for individual users,
-while keeping stocks up-to-date using a service.  It features:
+This is a demo rails app that tracks stock quotes for individual users.  It features:
 
 * Hosting on heroku at http://stockton.herokuapp.com
 
-* <tt>Devise</tt> user authentication.
+* <em>Devise</em> user authentication.
 
-  * User login using any valid email address.
+       User login using any valid email address.
 
-  * Guest login, if you don't want to enter an email address.  There is only one unique guest login, so play nice!
+       Guest login, if you don't want to enter an email address.  There is only one unique guest login, so play nice!
 
-  * Admin login, if you know the admin info.
+       Admin login, if you know the admin info.
 
 * Many-to-many models using <tt>has-many :through</tt>.  
 
-* <tt>Haml</tt> and <tt>Scss</tt> templates. 
+* <em>Haml</em> and <em>Scss</em> templates. 
+
+* Stocks are kept up-to-date using a service.  
 
 == Stock Service
 
-Stock tracking is done using <tt>Yahoo! Finance</tt>, which is up-to-date with a fifteen
+Stock tracking is done using <em>Yahoo! Finance</em>, which is up-to-date with a fifteen
 minute delay.
-
-* No high-speed trading, but you can track your stocks.
 
 * The service runs in background periodically using a <tt>rake</tt> task.
 
-* A demo <tt>rake</tt> task that randomizes stock values is also available.   
+* A demo <tt>rake</tt> task that randomizes stock values is available.
+
+* No high-speed trading available, but you can track your stocks.  :)
 
 == Testing
 
-Testing is done using <tt>RSpec</tt>.
+Testing is done using <em>RSpec</em>.
 
 == Work in Progress
 
-Please note this is a work in progress.  This is a <b><em>Birch\ Forest\ Systems</em></b> project.
+Please note this is a work in progress.  This is a <b><em>Birch Forest Systems</em></b> project.
 Please contact us at <em>bfetler@gmail.com</em> for further information.  
 
 == Original description:
