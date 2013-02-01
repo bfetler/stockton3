@@ -1,39 +1,39 @@
-== Stockton: A Rails app to track stocks.
+== Stockton: A Rails app to track stocks
 
 This is a demo rails app that tracks stock quotes for individual users,
-while keeping all stocks up-to-date using a service.  The demo features:
+while keeping all stocks up-to-date using a service.  It features:
 
-* Hosting on heroku at: http://stockton.herokuapp.com/
+* Hosting on heroku at: http://stockton.herokuapp.com
 
-* User login.  You can use any valid email address.
+* Devise user authentication.
 
-* Guest login, if you don't want to enter an email address.  Note there is only
-one unique guest user login, so play nice!
+  * User login.  You can use any valid email address.
 
-* Admin login, if you know the admin info.
+  * Guest login, if you don't want to enter an email address.  Note there is only one unique guest user login, so play nice!
 
-* `Devise` user authentication.
+  * Admin login, if you know the admin info.
 
-* Many-to-many models using `has-many :through`.  
+* Many-to-many models using 'has-many :through'.  
 
-* `Haml` and `Scss` templates. 
+* <tt>Haml</tt> and <tt>Scss</tt> templates. 
 
 == Stock Service
 
 Stock tracking is done using Yahoo! finance, which is up-to-date with a fifteen
 minute delay.  So no high-speed trading, but you can track your stocks.
 
-The service runs in background periodically using a `rake` task.
-A demo `rake` task that randomizes stock values is also available.   
+* The service runs in background periodically using a <tt>rake</tt> task.
+
+* A demo <tt>rake</tt> task that randomizes stock values is also available.   
 
 == Testing
 
-Testing is done using `RSpec`  
+Testing is done using RSpec.
 
 == Work in Progress
 
-Please note this is a work in progress.  This is a __*Birch Forest Systems*__ project.
-Please contact us at *bfetler@gmail.com* for further information.  
+Please note this is a work in progress.  This is a \<b>\<em>Birch\ Forest\ Systems\</em>\</b> project.
+Please contact us at <em>bfetler@gmail.com</em> for further information.  
 
 == Original description:
 
