@@ -33,7 +33,7 @@ quotes are updated with a fifteen minute delay.
 
 Testing is done using <em>RSpec</em>.
 
-== Work in Progress
+== Contact
 
 Please note this is a work in progress.  This is a <b><em>Birch Forest Systems</em></b> project.
 Please contact us at <em>bfetler@gmail.com</em> for further details.
