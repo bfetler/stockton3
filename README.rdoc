@@ -1,26 +1,28 @@
 == Stockton: A Rails app to track stocks
 
 This is a demo rails app that tracks stock quotes for individual users,
-while keeping all stocks up-to-date using a service.  It features:
+while keeping stocks up-to-date using a service.  It features:
 
-* Hosting on heroku at: http://stockton.herokuapp.com
+* Hosting on heroku at http://stockton.herokuapp.com
 
-* Devise user authentication.
+* <tt>Devise</tt> user authentication.
 
-  * User login.  You can use any valid email address.
+  * User login using any valid email address.
 
-  * Guest login, if you don't want to enter an email address.  Note there is only one unique guest user login, so play nice!
+  * Guest login, if you don't want to enter an email address.  There is only one unique guest login, so play nice!
 
   * Admin login, if you know the admin info.
 
-* Many-to-many models using 'has-many :through'.  
+* Many-to-many models using <tt>has-many :through</tt>.  
 
 * <tt>Haml</tt> and <tt>Scss</tt> templates. 
 
 == Stock Service
 
-Stock tracking is done using Yahoo! finance, which is up-to-date with a fifteen
-minute delay.  So no high-speed trading, but you can track your stocks.
+Stock tracking is done using <tt>Yahoo! Finance</tt>, which is up-to-date with a fifteen
+minute delay.
+
+* No high-speed trading, but you can track your stocks.
 
 * The service runs in background periodically using a <tt>rake</tt> task.
 
@@ -28,11 +30,11 @@ minute delay.  So no high-speed trading, but you can track your stocks.
 
 == Testing
 
-Testing is done using RSpec.
+Testing is done using <tt>RSpec</tt>.
 
 == Work in Progress
 
-Please note this is a work in progress.  This is a \<b>\<em>Birch\ Forest\ Systems\</em>\</b> project.
+Please note this is a work in progress.  This is a <b><em>Birch\ Forest\ Systems</em></b> project.
 Please contact us at <em>bfetler@gmail.com</em> for further information.  
 
 == Original description:
