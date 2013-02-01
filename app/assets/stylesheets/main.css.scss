@@ -48,6 +48,19 @@ h4.header {
   }
 }
 
+table#stocklist {
+  border-collapse: collapse;
+  th, td {
+    padding-right: $dpad*0.5;
+  }
+  td.companyname {
+    font-size: 0.8em;
+  }
+  tbody tr:nth-child(even) td, tbody tr.even td {
+    background-color: #ddf;
+  }
+}
+
 .main_panel {
   width: $main_width;  // don't use?
 }
@@ -62,16 +75,14 @@ h4.header {
   padding: $dpad*0.5;
   background-color: white;
 }
-table#stocklist {
-  border-collapse: collapse;
-  th, td {
-    padding-right: $dpad*0.5;
-  }
-  td.companyname {
-    font-size: 0.8em;
-  }
-  tbody tr:nth-child(even) td, tbody tr.even td {
-    background-color: #ddf;
+.new_panel {
+  @extend .stock_panel;
+  background-color: $main_bg_color;
+  padding: {
+    top: $dpad*0.25;
+    bottom: $dpad*0.5;
+    left: 0px;
+    right: 0px;
   }
 }
 .action_panel {
@@ -84,6 +95,11 @@ table#stocklist {
     right: 0px;
   }
 }
+.error_panel {
+  @extend .action_panel;
+  padding-bottom: $dpad*0.25;
+}
+
 .action {
   @extend .round;
   margin-right: $dpad*0.5;
@@ -93,6 +109,10 @@ table#stocklist {
 .guest_action {
   @extend .action;
   background-color: $header_bg_color;
+}
+.add_action {
+  @extend .action;
+  margin-top: $dpad*0.5;
 }
 
 .left {
@@ -119,8 +139,6 @@ li.nostyle {
 }
 .userbox {
   background: #abd;
-# margin: 10px 200px 10px 200px;
   margin: 10px 20% 10px 20%;
   padding: 20px 20px 10px 20px;
 }
-
