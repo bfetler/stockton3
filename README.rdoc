@@ -12,7 +12,7 @@ This is a demo rails app that tracks stock quotes for individual users.  It feat
 
   * Admin login, if you know the admin info.
 
-* Many-to-many models using <tt>has-many :through</tt>.  
+* A user may have many stocks, and a stock may belong to many users.
 
 * <em>Haml</em> and <em>Scss</em> templates. 
 
@@ -20,14 +20,14 @@ This is a demo rails app that tracks stock quotes for individual users.  It feat
 
 == Stock Service
 
-Stock tracking is done using <em>Yahoo! Finance</em>, which is up-to-date with a fifteen
-minute delay.
+Stock tracking is done using the <em>Yahoo! Finance</em> API, where stock
+quotes are updated with a fifteen minute delay.
 
-* The service runs in background periodically using a <tt>rake</tt> task.
+* The service runs periodically in background using a <tt>rake</tt> task.
 
 * A demo <tt>rake</tt> task that randomizes stock values is available.
 
-* No high-speed trading available, but you can track your stocks.  :)
+* No high-speed trading!  But you can track your stocks hourly or less.
 
 == Testing
 
@@ -36,4 +36,4 @@ Testing is done using <em>RSpec</em>.
 == Work in Progress
 
 Please note this is a work in progress.  This is a <b><em>Birch Forest Systems</em></b> project.
-Please contact us at <em>bfetler@gmail.com</em> for further information.  
+Please contact us at <em>bfetler@gmail.com</em> for further details.
