@@ -1,13 +1,11 @@
 require 'spec_helper'
-# require 'support/devise'  # same as spec_helper
-# helper_method :current_user_or_guest
+# require 'support/devise'
 include Devise::TestHelpers
 include ApplicationHelper
-# I suppose I could stub current_user ... bleah
 
 describe StocksController do
-# views must exist, but can be empty files (unless render_views)
 
+# views must exist, but can be empty files (unless render_views)
 # render_views
 
   before(:each) do
@@ -260,10 +258,9 @@ describe StocksController do
       @request.env["devise.mapping"] = Devise.mappings[:user]
 #      factory_guest = FactoryGirl.create(:user)
 #      factory_guest.role = "guest"
-#puts "saving factory_guest"
 #      factory_guest.save
-#puts "saved factory_guest"
       @guest = create_guest_user
+#      puts "@guest: " + @guest.inspect
     end
 
     it "should get guestlog" do
@@ -273,6 +270,7 @@ describe StocksController do
     end
 
     it "should login guest" do
+      self.stub!(:user).and_return(@guest)
       get 'guestlog', :guest => "login"
 #     need to create guest_user
 #     session[:guest_login].should be_true
