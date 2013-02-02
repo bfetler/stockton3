@@ -27,6 +27,9 @@
     - if current_user.admin?
       %span.left
         = button_to 'Update Stocks', stockservice_path, :class => "action"
+      /
+        %span.left
+          = button_to 'Randomize', { :action => "sservice", :random => "true" }, :class => "action"
     - else
       %span.left
         = button_to 'Clear My Stocks', {:action => "destroy", :id => 1}, :method => :delete, :class => "action"

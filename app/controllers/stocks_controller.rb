@@ -22,7 +22,11 @@ class StocksController < ApplicationController
 #   but admin may also run update
   def sservice
     if current_user.admin?
-      StockService.request
+      if params[:random] == "true"
+        # StockService.fake_request
+      else
+        StockService.request
+      end
     end
     redirect_to stocks_path
   end
