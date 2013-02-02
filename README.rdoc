@@ -8,7 +8,7 @@ This is a demo rails app that tracks stock quotes for individual users.  It feat
 
   * User login using any valid email address.
 
-  * Guest login, if you don't want to enter an email address.  There is only one unique guest login, so play nice!
+  * Guest login, if you don't want to enter an email address.  
 
   * Admin login, if you know the admin info.
 
@@ -35,5 +35,5 @@ Testing is done using <em>RSpec</em>.
 
 == Contact
 
-Please note this is a work in progress.  This is a <b><em>Birch Forest Systems</em></b> project.
+This is a <b><em>Birch Forest Systems</em></b> project.
 Please contact us at <em>bfetler@gmail.com</em> for further details.
