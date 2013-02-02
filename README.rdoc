@@ -35,5 +35,5 @@ Testing is done using <em>RSpec</em>.
 
 == Contact
 
-This is a <b><em>Birch Forest Systems</em></b> project.
 Please contact us at <em>bfetler@gmail.com</em> for further details.
+This is a <b><em>Birch Forest Systems</em></b> project.
