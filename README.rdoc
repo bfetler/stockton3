@@ -12,11 +12,13 @@ This is a demo rails app that tracks stock quotes for individual users.  It feat
 
   * Admin login, if you know the admin info.
 
-* A user may have many stocks, and a stock may have many users.
+* Users may have many stocks, and a stock may have many users.
 
 * <em>Haml</em> and <em>Scss</em> templates. 
 
-* Stocks are kept up-to-date using a service.  
+* Stocks are kept up-to-date using a stock service.  
+
+* Views are refreshed using <em>jQuery AJAX</em>.
 
 == Stock Service
 
