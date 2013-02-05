@@ -22,12 +22,12 @@ This is a demo rails app that tracks stock quotes for individual users.  It feat
 
 == Stock Service
 
-Stock tracking is done using the <em>Yahoo! Finance API</em>, where stock
+The stock tracking service uses the <em>Yahoo! Finance API</em>, where stock
 quotes are updated with a fifteen minute delay.
 
 * The service runs periodically in background using a <tt>rake</tt> task.
 
-* A demo <tt>rake</tt> task that randomizes stock values is available.
+* A <tt>rake</tt> task that randomizes stock values is available for demo purposes only.
 
 * No high-speed trading!  But you can track your stocks hourly or less.
 
