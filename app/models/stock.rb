@@ -14,29 +14,11 @@ class Stock < ActiveRecord::Base
   validates :value,		:numericality => { :greater_than_or_equal_to => 0.0 }
   validates :delta,		:numericality => true
 #				:numericality => { :greater_than_or_equal_to => -1.0 * :value.to_f }
-
   validate  :delta_within_range
+
 # validate  :valid_request?  # do separately, has side effects
 
-  def self.randomize(stocks)
-    stocks.each do |s|
-      oldval = s["value"].to_f
-      del = Random.new().rand(-5.0...5.0).round(2)
-      if oldval+del < 0.0; del = -del; end
-      newval = (oldval + del).round(2)  # add/sub not perfect, must round
-      s["value"] = newval
-      s["delta"] = del
-    end
-    stocks
-  end
-
-#  def self.in_db?(symba)  # class method
-##   ab = Stock.where("companysymbol = ?", symba)
-#    ab = self.where("companysymbol = ?", symba)
-#    return ab.any?
-#  end
-
-  def find_in_db    # instance method
+  def find_in_db
     Stock.where("companysymbol = ?", self.companysymbol)  #.first
   end
   
@@ -58,7 +40,7 @@ class Stock < ActiveRecord::Base
 #    stocks_hash: {0=>{"companysymbol"=>"DOCTYPE", "value"=>"\n", "delta"=>"."}}
 
   def valid_request?
-    unless self.companysymbol.match(SREGEX)
+    unless self.companysymbol.match(SREGEX) # avoid http request if bad syntax
       errors.add("Invalid","stock symbol syntax")
       return false
     end
@@ -72,9 +54,9 @@ class Stock < ActiveRecord::Base
     
     stocks_hash = StockService.parse_response(res)
     
-    # update params hash w/ new values
+    # update params hash w/ new values from http request
     stocks_hash.each do |index, sash|
-      self["value"] = sash["value"]    # set new value, delta in self params
+      self["value"] = sash["value"]
       self["delta"] = sash["delta"]
       self["companyname"] = sash["companyname"]
       
