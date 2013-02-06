@@ -23,10 +23,11 @@ describe "Integration: Users" do
         fill_in "Password",   :with => ""
         fill_in "Password confirmation",   :with => ""
         click_button "Create New User"
-#       page.should render_template('users')
         page.should have_selector("div#error_explanation")
-        page.should have_selector("li", :content => "Email can't be blank")
-        page.should have_selector("li", :content => "Password can't be blank")
+        page.should have_selector("div#error_explanation li", :content => "Email can't be blank")
+        page.should have_selector("div#error_explanation li", :content => "Password can't be blank")
+        page.should have_content("Email can't be blank")
+        page.should have_content("Password can't be blank")
       end
     end
 
@@ -47,12 +48,10 @@ describe "Integration: Users" do
 #       visit 'users/sign_in'
         visit root_path
         click_link "Create New User"
-#       response.should render_template('users')
         fill_in "Email",      :with => "george@jetson.com"
         fill_in "Password",   :with => "jaaaane"
         fill_in "Password confirmation",   :with => "jaaaane"
         click_button "Create New User"
-#       page.should render_template('accelerators')
         page.should have_selector("div.main_panel")
         page.should have_selector("table.stock_panel")
         page.should have_selector("div.action_panel")
@@ -79,8 +78,8 @@ describe "Integration: Users" do
         fill_in "Email",      :with => ""
         fill_in "Password",   :with => ""
         click_button "Sign In"
-#       response.should render_template('users/sessions/new')
         page.should have_selector("p", :content => "Invalid email or password.")
+        page.should have_content("Invalid email or password.")
       end
     end
 
@@ -99,13 +98,29 @@ describe "Integration: Users" do
         fill_in "Email",      :with => @user.email
         fill_in "Password",   :with => @user.password
         click_button "Sign In"
-#       response.should render_template('accelerators')
         page.should have_selector("div.main_panel")
         page.should have_selector("table.stock_panel")
         page.should have_selector("div.action_panel")
       end
     end
 
+  end
+  
+  describe "Guest Login" do
+    it "should create guest user" do
+      lambda do
+        visit root_path
+        click_button "Guest Sign In"
+      end.should change(User, :count).by(1)
+    end
+    
+    it "should show stock table for guest user" do
+      visit root_path
+      click_button "Guest Sign In"
+      page.should have_selector("div.main_panel")
+      page.should have_selector("table.stock_panel")
+      page.should have_selector("div.action_panel")
+    end
   end
 
 end
