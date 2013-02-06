@@ -27,7 +27,7 @@ quotes are updated with a fifteen minute delay.
 
 * The service runs periodically in background using a <tt>rake</tt> task.
 
-* A <tt>rake</tt> task that randomizes stock values is available for demo purposes only.
+* A <tt>rake</tt> task that randomizes stock values is available (for demo purposes only).
 
 * No high-speed trading!  But you can track your stocks hourly or less.
 
