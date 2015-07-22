@@ -1,6 +1,6 @@
 == Stockton: A Rails app to track stocks
 
-This is a demo rails app that tracks stock quotes for individual users.  It features:
+A demo rails app to track stock quotes for individual users.  Features:
 
 * Hosting on heroku at http://stockton.herokuapp.com
 
