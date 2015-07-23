@@ -12,7 +12,7 @@ This is a demo rails app to track stock quotes for individual users.  Features:
 
   * Admin login, if you know the admin info.
 
-* Users may have many stocks, and a stock may be followed by many users.
+* Users may follow many stocks, and a stock may be followed by many users.
 
 * <em>Haml</em> and <em>Scss</em> templates. 
 
