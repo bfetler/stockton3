@@ -15,3 +15,6 @@
 /tmp
 /doc
 NOTES.txt
+
+# Ignore sass cache
+.sass-cache
