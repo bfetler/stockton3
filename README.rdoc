@@ -2,8 +2,6 @@
 
 This is a demo rails app to track stock quotes for individual users.  Features:
 
-* Hosting on heroku at http://stockton.herokuapp.com
-
 * <em>Devise</em> user authentication.
 
   * User login using any valid email address.
@@ -19,6 +17,8 @@ This is a demo rails app to track stock quotes for individual users.  Features:
 * Stocks are kept up-to-date using a stock service.  
 
 * Views are refreshed using <em>jQuery AJAX</em>.
+
+* Hosting on heroku at http://stockton.herokuapp.com (disabled: no Rails 3 support)
 
 == Stock Service
 
